@@ -1939,7 +1939,7 @@ function App({user}){
                             {immFirm.address}<br/>
                             <a href={`mailto:${immFirm.email}`}>{immFirm.email}</a>
                             {immFirm.phone&&<> · {immFirm.phone}</>}<br/>
-                            OISC Ref: {immFirm.oisc}
+                            IAA Reg: {immFirm.oisc}
                           </div>
                         </div>
                         <div className="fn-top-right">
@@ -1994,7 +1994,7 @@ function App({user}){
                         </div>
                       </div>
                       <div className="fn-footer">
-                        <span>{immFirm.name} · OISC Reg: {immFirm.oisc}</span>
+                        <span>{immFirm.name} · IAA Reg: {immFirm.oisc}</span>
                         <span>Fee Note #{fyFnNo} · FY {fnFY}</span>
                       </div>
                     </div>
@@ -2074,7 +2074,7 @@ function App({user}){
                   <div className="fg"><label>Email</label><input value={immFirm.email||""} onChange={e=>setImmFirm({...immFirm,email:e.target.value})}/></div>
                   <div className="fg"><label>Phone</label><input value={immFirm.phone||""} onChange={e=>setImmFirm({...immFirm,phone:e.target.value})}/></div>
                 </div>
-                <div className="fg"><label>OISC Registration Number</label><input value={immFirm.oisc||""} onChange={e=>setImmFirm({...immFirm,oisc:e.target.value})}/></div>
+                <div className="fg"><label>IAA Registration Number</label><input value={immFirm.oisc||""} onChange={e=>setImmFirm({...immFirm,oisc:e.target.value})}/></div>
                 <hr className="sec"/>
                 <h3>Bank Details</h3>
                 <div className="row3">
