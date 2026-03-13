@@ -1,0 +1,2190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Janjua &amp; Associates — Invoice Generator</title>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#f8f7f4;font-family:'Crimson Text',Georgia,serif;}
+.nav{background:#1c2b3a;display:flex;align-items:center;height:56px;padding:0;}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:700;color:#fff;padding:0 2rem;margin-right:auto;letter-spacing:.05em;}
+.nav-logo span{color:#c9a84c;}
+.nav-btn{background:none;border:none;border-bottom:3px solid transparent;color:#a0b4c5;font-family:'Crimson Text',serif;font-size:1rem;cursor:pointer;padding:0 1.4rem;height:100%;transition:all .15s;}
+.nav-btn:hover{color:#fff;background:rgba(255,255,255,.05);}
+.nav-btn.active{color:#fff;border-bottom-color:#c9a84c;}
+.pg{max-width:980px;margin:0 auto;padding:2.5rem 1.5rem;}
+h1{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:700;color:#1c2b3a;margin-bottom:.2rem;}
+h2{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:600;color:#1c2b3a;margin-bottom:.8rem;}
+h3{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;color:#1c2b3a;margin-bottom:.6rem;}
+.sub{color:#6b7e8f;font-size:.95rem;margin-bottom:2rem;}
+.card{background:#fff;border-radius:8px;padding:1.8rem;box-shadow:0 1px 8px rgba(28,43,58,.08);margin-bottom:1rem;border:1px solid #e8e4dc;}
+.tc{display:flex;align-items:center;gap:1rem;}
+.av{width:42px;height:42px;border-radius:50%;background:#1c2b3a;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-weight:700;font-size:1.1rem;color:#c9a84c;flex-shrink:0;}
+.ti{flex:1;}
+.tn{font-weight:600;font-size:1rem;color:#1c2b3a;}
+.tm{font-size:.83rem;color:#6b7e8f;margin-top:2px;}
+.tr{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:700;color:#1c2b3a;margin-right:1rem;white-space:nowrap;}
+.btn{display:inline-flex;align-items:center;gap:.35rem;padding:.5rem 1.1rem;border-radius:5px;border:none;cursor:pointer;font-family:'Crimson Text',serif;font-size:.95rem;font-weight:600;transition:all .15s;}
+.bp{background:#1c2b3a;color:#fff;}.bp:hover{background:#243547;}
+.bg{background:#c9a84c;color:#fff;}.bg:hover{background:#b8943c;}
+.bo{background:transparent;border:1.5px solid #c5bfb0;color:#4a5a68;}.bo:hover{border-color:#1c2b3a;color:#1c2b3a;}
+.bd{background:transparent;border:1.5px solid #e07070;color:#b03030;}.bd:hover{background:#fff5f5;}
+.bs{padding:.38rem .85rem;font-size:.85rem;}
+.fg{margin-bottom:1rem;}
+label{display:block;font-size:.78rem;font-weight:600;color:#4a5a68;margin-bottom:.25rem;letter-spacing:.06em;text-transform:uppercase;}
+input,select,textarea{width:100%;padding:.55rem .8rem;border:1.5px solid #ddd8ce;border-radius:5px;font-family:'Crimson Text',serif;font-size:.98rem;color:#1c2b3a;background:#fdfcf9;transition:border-color .15s;outline:none;}
+input:focus,select:focus{border-color:#c9a84c;background:#fff;}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;}
+.sg{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.5rem;}
+.st{background:#fff;border-radius:8px;padding:1.3rem 1.5rem;box-shadow:0 1px 8px rgba(28,43,58,.08);border:1px solid #e8e4dc;}
+.sl{font-size:.75rem;text-transform:uppercase;letter-spacing:.07em;color:#6b7e8f;font-weight:600;margin-bottom:.3rem;}
+.sv{font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:700;color:#1c2b3a;}
+.mo{position:fixed;inset:0;background:rgba(28,43,58,.5);z-index:100;display:flex;align-items:center;justify-content:center;padding:1rem;}
+.md{background:#fff;border-radius:10px;padding:2rem;width:100%;max-width:580px;box-shadow:0 8px 40px rgba(28,43,58,.2);max-height:92vh;overflow-y:auto;}
+.mh{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;}
+.mx{background:none;border:none;font-size:1.3rem;cursor:pointer;color:#6b7e8f;line-height:1;}
+.toast{position:fixed;bottom:2rem;right:2rem;background:#1c2b3a;color:#c9a84c;padding:.75rem 1.3rem;border-radius:6px;font-size:.9rem;z-index:999;box-shadow:0 4px 20px rgba(0,0,0,.2);animation:fi .2s ease;}
+@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.badge{display:inline-block;padding:.15rem .65rem;border-radius:20px;font-size:.72rem;font-weight:600;background:#e8f3e8;color:#2d6a2d;margin-left:.4rem;}
+.badge-overdue{background:#ffeaea;color:#b03030;}
+.badge-paid{background:#e8f3e8;color:#2d6a2d;}
+.badge-early{background:#fff8e6;color:#8a6a1a;border:1px solid #c9a84c;}
+.badge-late{background:#ffeaea;color:#b03030;}
+.pay-bar{height:6px;border-radius:3px;display:flex;overflow:hidden;margin-top:.35rem;gap:1px;}
+.pay-bar-seg{height:100%;border-radius:2px;}
+.sec{border:none;border-top:1px solid #e8e4dc;margin:1.2rem 0;}
+.line-row{display:grid;grid-template-columns:1fr 130px 32px;gap:.4rem;align-items:center;margin-bottom:.45rem;}
+.line-row input{padding:.42rem .65rem;font-size:.92rem;}
+.line-del{background:none;border:none;cursor:pointer;color:#c04040;font-size:1.2rem;padding:.1rem .3rem;border-radius:4px;transition:background .15s;line-height:1;}
+.line-del:hover{background:#fff0f0;}
+.add-line-btn{background:none;border:1.5px dashed #c9a84c;color:#8a6a1a;border-radius:5px;padding:.38rem 1rem;cursor:pointer;font-family:'Crimson Text',serif;font-size:.88rem;font-weight:600;width:100%;transition:all .15s;margin-top:.2rem;}
+.add-line-btn:hover{background:#fffbf0;}
+.section-box{background:#fdfcf9;border:1px solid #e8e4dc;border-radius:7px;padding:1.1rem 1.3rem;margin-bottom:.8rem;}
+.section-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.7rem;}
+.stag{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;padding:.18rem .65rem;border-radius:20px;}
+.stag.inc{background:#e8f3e8;color:#2d6a2d;}
+.stag.exp{background:#ffeaea;color:#b03030;}
+.fixed-row{display:flex;justify-content:space-between;align-items:center;background:#f0f7f0;border-radius:5px;padding:.45rem .8rem;margin-bottom:.55rem;font-size:.9rem;color:#1c2b3a;}
+.net-bar{background:#1c2b3a;border-radius:7px;padding:.9rem 1.3rem;display:flex;justify-content:space-between;align-items:center;margin-top:.2rem;}
+.stamp-toggle{display:flex;align-items:center;gap:.5rem;background:#fff;border:1.5px solid #ddd8ce;border-radius:5px;padding:.3rem .8rem;}
+.stamp-toggle input[type=checkbox]{width:auto;cursor:pointer;}
+.stamp-toggle label{margin:0;cursor:pointer;font-size:.88rem;text-transform:none;letter-spacing:normal;color:#1c2b3a;font-weight:600;white-space:nowrap;}
+.ctrl-bar{display:flex;gap:.8rem;margin-bottom:1.4rem;align-items:center;flex-wrap:wrap;}
+.builder-grid{display:grid;grid-template-columns:300px 1fr;gap:1.5rem;align-items:start;}
+/* Photo upload area */
+.photo-upload-zone{border:2px dashed #c9a84c;border-radius:8px;padding:1.2rem;text-align:center;cursor:pointer;transition:all .15s;background:#fffbf0;margin-bottom:.8rem;}
+.photo-upload-zone:hover{background:#fff8e6;border-color:#b8943c;}
+.photo-upload-zone p{font-size:.85rem;color:#8a6a1a;margin-top:.4rem;}
+.photo-preview{position:relative;margin-bottom:.8rem;}
+.photo-preview img{width:100%;height:120px;object-fit:cover;border-radius:7px;border:1px solid #e8e4dc;}
+.photo-remove{position:absolute;top:.4rem;right:.4rem;background:rgba(28,43,58,.75);color:#fff;border:none;border-radius:4px;padding:.2rem .5rem;font-size:.75rem;cursor:pointer;}
+.photo-remove:hover{background:rgba(28,43,58,.95);}
+/* Tenant photo thumbnail */
+.t-photo{width:52px;height:52px;object-fit:cover;border-radius:6px;border:1px solid #e8e4dc;flex-shrink:0;}
+.t-photo-placeholder{width:52px;height:52px;border-radius:6px;border:2px dashed #ddd8ce;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;cursor:pointer;background:#fdfcf9;}
+
+.badge-overdue-late{background:#fff0e0;color:#a05000;}
+@media(max-width:700px){
+  .pg{padding:1.2rem .8rem;}
+  .sg{grid-template-columns:1fr 1fr!important;}
+  .row2,.row3{grid-template-columns:1fr!important;}
+  .ctrl-bar{gap:.5rem;}
+  .builder-grid{grid-template-columns:1fr!important;}
+  nav .nav-logo{padding:0 1rem;}
+  .nav-btn{padding:0 .7rem;font-size:.88rem;}
+  table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  .inv-grid{grid-template-columns:1fr!important;}
+  .tc{flex-wrap:wrap;}
+}
+.memo-line{background:#fffbf0;border:1px solid #e8d9a0;border-radius:4px;padding:.45rem .8rem;font-size:.88rem;color:#6b5a1a;margin-top:.6rem;font-style:italic;}
+.imm-nav{display:flex;background:#f0ece4;border-radius:7px;padding:.25rem;margin-bottom:1.5rem;width:fit-content;flex-wrap:wrap;gap:.2rem;}
+.imm-nav-btn{background:none;border:none;border-radius:5px;padding:.38rem .9rem;font-family:'Crimson Text',serif;font-size:.9rem;font-weight:600;color:#4a5a68;cursor:pointer;transition:all .15s;white-space:nowrap;}
+.imm-nav-btn:hover{background:rgba(28,43,58,.07);}
+.imm-nav-btn.active{background:#1c2b3a;color:#fff;}
+.status-badge{display:inline-block;padding:.18rem .7rem;border-radius:20px;font-size:.72rem;font-weight:700;letter-spacing:.04em;white-space:nowrap;margin-left:.3rem;}
+.s-Active{background:#e8f3e8;color:#2d6a2d;}
+.s-Awaiting{background:#fff8e6;color:#8a6a1a;}
+.s-Approved{background:#e0f0e0;color:#1a6a1a;}
+.s-Refused{background:#ffeaea;color:#b03030;}
+.s-Appealing{background:#f0e8ff;color:#6030a0;}
+.s-Closed{background:#f0ece4;color:#6b7e8f;}
+.fn-page{background:#fff;border-radius:8px;box-shadow:0 2px 24px rgba(28,43,58,.1);border:1px solid #e8e4dc;overflow:hidden;position:relative;}
+.fn-top{background:#1c2b3a;padding:0;display:grid;grid-template-columns:1fr auto;}
+.fn-top-left{padding:1.6rem 2rem;}
+.fn-co{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;color:#fff;letter-spacing:.04em;}
+.fn-co-sub{font-size:.8rem;color:#a0b4c5;margin-top:.25rem;}
+.fn-top-right{display:flex;flex-direction:column;align-items:flex-end;padding:1.2rem 1.6rem;}
+.fn-badge{background:#c9a84c;color:#1c2b3a;font-family:'Cormorant Garamond',serif;font-size:.95rem;font-weight:700;padding:.45rem 1rem;border-radius:4px;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;}
+.fn-body{padding:1.8rem 2rem;}
+.fn-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.8rem;margin-bottom:1.8rem;}
+.fn-sect-label{font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:#6b7e8f;font-weight:600;margin-bottom:.5rem;border-bottom:1px solid #e8e4dc;padding-bottom:.35rem;}
+.fn-detail{font-size:.9rem;color:#1c2b3a;line-height:1.9;}
+.fn-detail strong{font-weight:600;}
+.fn-table{width:100%;border-collapse:collapse;margin-bottom:1.2rem;}
+.fn-table thead tr{background:#f8f7f4;border-top:2px solid #1c2b3a;border-bottom:2px solid #1c2b3a;}
+.fn-table th{font-family:'Cormorant Garamond',serif;font-size:.83rem;font-weight:700;color:#1c2b3a;padding:.6rem .9rem;text-align:left;}
+.fn-table th:last-child,.fn-table td:last-child{text-align:right;}
+.fn-table td{padding:.7rem .9rem;font-size:.9rem;color:#1c2b3a;border-bottom:1px solid #f0ece4;}
+.fn-table td:last-child{font-weight:600;}
+.fn-table .fn-tot td{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;border-top:2px solid #1c2b3a;}
+.fn-bank{background:#f8f7f4;border-radius:6px;padding:1.1rem 1.3rem;margin-top:.4rem;border-left:3px solid #c9a84c;}
+.fn-bank-title{font-size:.76rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;color:#1c2b3a;margin-bottom:.45rem;}
+.fn-bank-row{font-size:.88rem;color:#1c2b3a;line-height:1.9;}
+.fn-bank-row strong{font-weight:600;}
+.fn-footer{background:#f8f7f4;border-top:1px solid #e8e4dc;padding:.8rem 2rem;display:flex;justify-content:space-between;font-size:.78rem;color:#6b7e8f;}
+
+@media print{
+  .no-print{display:none!important;}
+  body{background:#fff;}
+  .inv-page{box-shadow:none!important;border:none!important;max-width:100%!important;}
+  .pg{padding:.5rem!important;}
+  .builder-grid{grid-template-columns:1fr!important;}
+}
+/* Force all background colours and images to print */
+*{
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+  color-adjust: exact !important;
+}
+.inv-top{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}
+.inv-footer{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}
+.inv-badge{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}
+.inv-bank{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}
+.inv-table .sh td{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}
+.inv-table thead tr{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}
+.stamp{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}
+.stamp-inner{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}
+
+/* ── Login screen ── */
+.login-wrap{position:fixed;inset:0;background:#1c2b3a;display:flex;align-items:center;justify-content:center;z-index:9999;padding:1rem;}
+.login-box{background:#fff;border-radius:12px;padding:2.5rem 2rem;width:100%;max-width:380px;box-shadow:0 8px 40px rgba(0,0,0,.3);}
+.login-logo{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;color:#1c2b3a;text-align:center;margin-bottom:.3rem;}
+.login-logo span{color:#c9a84c;}
+.login-sub{text-align:center;font-size:.85rem;color:#6b7e8f;margin-bottom:1.8rem;}
+.login-err{background:#fff0f0;border:1px solid #e07070;border-radius:5px;padding:.6rem .9rem;font-size:.85rem;color:#b03030;margin-bottom:1rem;}
+.login-footer{text-align:center;font-size:.78rem;color:#a0b4c5;margin-top:1.2rem;}
+
+.inv-page{background:#fff;border-radius:8px;box-shadow:0 2px 24px rgba(28,43,58,.1);border:1px solid #e8e4dc;overflow:hidden;position:relative;}
+.inv-top{background:#1c2b3a;padding:0;display:grid;grid-template-columns:1fr auto;}
+.inv-top-left{padding:1.6rem 2rem;}
+.inv-co{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;color:#fff;letter-spacing:.04em;}
+.inv-co-sub{font-size:.8rem;color:#a0b4c5;margin-top:.25rem;}
+.inv-co-sub a{color:#c9a84c;}
+.inv-top-right{display:flex;flex-direction:column;align-items:flex-end;justify-content:space-between;padding:1.2rem 1.6rem 1.2rem 0;}
+.inv-badge{background:#c9a84c;color:#1c2b3a;font-family:'Cormorant Garamond',serif;font-size:.95rem;font-weight:700;padding:.45rem 1rem;border-radius:4px;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;align-self:flex-start;}
+.inv-prop-photo{width:160px;height:90px;object-fit:cover;border-radius:5px;border:2px solid rgba(201,168,76,.4);margin-top:.6rem;}
+.inv-prop-photo-placeholder{width:160px;height:90px;border-radius:5px;border:2px dashed rgba(201,168,76,.3);display:flex;align-items:center;justify-content:center;font-size:.72rem;color:rgba(160,180,197,.7);text-align:center;margin-top:.6rem;}
+.inv-body{padding:1.8rem 2rem;}
+.inv-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.8rem;margin-bottom:1.8rem;}
+.inv-sect-label{font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:#6b7e8f;font-weight:600;margin-bottom:.5rem;border-bottom:1px solid #e8e4dc;padding-bottom:.35rem;}
+.inv-detail{font-size:.9rem;color:#1c2b3a;line-height:1.8;}
+.inv-detail strong{font-weight:600;}
+.inv-table{width:100%;border-collapse:collapse;margin-bottom:1.2rem;}
+.inv-table thead tr{background:#f8f7f4;border-top:2px solid #1c2b3a;border-bottom:2px solid #1c2b3a;}
+.inv-table th{font-family:'Cormorant Garamond',serif;font-size:.83rem;font-weight:700;color:#1c2b3a;padding:.6rem .9rem;text-align:left;letter-spacing:.04em;}
+.inv-table th:last-child{text-align:right;}
+.inv-table td{padding:.7rem .9rem;font-size:.9rem;color:#1c2b3a;border-bottom:1px solid #f0ece4;}
+.inv-table td:last-child{text-align:right;font-weight:600;}
+.inv-table .sh td{background:#f4f2ee;font-family:'Cormorant Garamond',serif;font-weight:700;font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;color:#5a4a32;padding:.45rem .9rem;text-align:left!important;}
+.inv-table .sub-row td{font-weight:700;border-top:1px solid #ddd8ce;background:#fdfcf9;}
+.inv-table .exp-row td{color:#b03030;}
+.inv-table .tot-row td{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;border-top:2px solid #1c2b3a;padding-top:.9rem;}
+.inv-bank{background:#f8f7f4;border-radius:6px;padding:1.1rem 1.3rem;margin-top:.4rem;border-left:3px solid #c9a84c;}
+.inv-bank-title{font-size:.76rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;color:#1c2b3a;margin-bottom:.45rem;}
+.inv-bank-row{font-size:.88rem;color:#1c2b3a;line-height:1.9;}
+.inv-bank-row strong{font-weight:600;}
+.inv-footer{background:#f8f7f4;border-top:1px solid #e8e4dc;padding:.8rem 2rem;display:flex;justify-content:space-between;font-size:.78rem;color:#6b7e8f;}
+.stamp{position:absolute;bottom:105px;right:1.8rem;width:112px;height:112px;border-radius:50%;border:4px solid #1a7a3a;display:flex;align-items:center;justify-content:center;transform:rotate(-18deg);background:rgba(255,255,255,.92);box-shadow:inset 0 0 0 2px #1a7a3a;}
+.stamp-inner{width:95px;height:95px;border-radius:50%;border:2px dashed #1a7a3a;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:.4rem;}
+.stamp-title{font-family:'Cormorant Garamond',serif;font-size:.76rem;font-weight:700;color:#1a7a3a;letter-spacing:.08em;text-transform:uppercase;line-height:1.2;}
+.stamp-date{font-size:.68rem;color:#1a7a3a;font-weight:600;margin-top:.18rem;}
+.stamp-sub{font-size:.52rem;color:#1a7a3a;text-transform:uppercase;letter-spacing:.06em;margin-top:.1rem;}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+
+<!-- Firebase initialised in plain JS before Babel runs -->
+<script>
+  firebase.initializeApp({
+    apiKey:"AIzaSyCyN-DuoCDRDEspcuQUAl62l4VwTQFknhg",
+    authDomain:"janjua-invoice.firebaseapp.com",
+    databaseURL:"https://janjua-invoice-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId:"janjua-invoice",
+  });
+  window._db   = firebase.database();
+  window._auth = firebase.auth();
+  window._auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+  window._fbSet = function(path,val){
+    return window._db.ref(path).set(val).catch(function(e){console.error("Firebase write error:",path,e);});
+  };
+  window._fbOn = function(path,cb){
+    window._db.ref(path).on('value',function(snap){var v=snap.val();if(v!==null)cb(v);});
+  };
+</script>
+
+<script type="text/babel">
+const { useState, useRef } = React;
+
+const MONTHS=["January","February","March","April","May","June","July","August","September","October","November","December"];
+const pad=n=>String(n).padStart(2,"0");
+const todayStr=()=>{const d=new Date();return `${pad(d.getDate())}/${pad(d.getMonth()+1)}/${d.getFullYear()}`;};
+const ordinal=n=>n+(n===1?"st":n===2?"nd":n===3?"rd":"th");
+const fmt=n=>Number(n||0).toLocaleString('en-GB',{minimumFractionDigits:2,maximumFractionDigits:2});
+const uid=()=>Math.random().toString(36).slice(2,9);
+const sumLines=lines=>lines.reduce((s,r)=>s+Number(r.amount||0),0);
+
+// Get UK financial year string from a date e.g. "2025/26"
+function getFY(date){
+  const d=date||new Date();
+  const y=d.getFullYear(),m=d.getMonth(),day=d.getDate();
+  // UK FY starts April 6
+  const inNewFY=(m>3)||(m===3&&day>=6);
+  const startYear=inNewFY?y:y-1;
+  return `${startYear}/${String(startYear+1).slice(2)}`;
+}
+function formatPeriodDate(d){
+  return `${ordinal(d.getDate())} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
+}
+// Advance period by 1 month or 1 quarter
+function advancePeriod(periodStart,periodEnd,frequency){
+  const s=parseDate(periodStart),e=parseDate(periodEnd);
+  if(!s||!e) return null;
+  const m=frequency==="quarterly"?3:1;
+  const newStart=new Date(s.getFullYear(),s.getMonth()+m,1);
+  const newEnd=new Date(newStart.getFullYear(),newStart.getMonth()+1,0); // last day of that month
+  return {
+    periodStart:formatPeriodDate(newStart),
+    periodEnd:formatPeriodDate(newEnd),
+  };
+}
+// Is an invoice overdue (unpaid and past its due date)?
+function isOverdue(inv){
+  if(inv.paid) return false;
+  const due=parseDate(inv.paymentDue)||parseDate(inv.periodEnd);
+  if(!due) return false;
+  return new Date()>due;
+}
+
+const DEF_LANDLORD={
+  name:"Masood Janjua",company:"Janjua and Associates",
+  address:"Janjua Chambers, Black Swan Passage, off George Street, Halifax, HX1 1HA",
+  email:"Masood.Janjua@live.co.uk",phone:"07931 3252",
+  accountName:"Janjua and Associates",sortCode:"20-35-84",accountNumber:"50107220",
+};
+const DEF_TENANTS=[{
+  id:1,companyName:"Din Solicitors",contactName:"Shabnam Riaz",
+  address:"Din Solicitors, Venture House, Halifax, HX1 1HS",
+  email:"S.Riaz@dinsolicitors.co.uk",property:"128 Lady Pit Lane, Beeston",
+  rent:2800,dueDay:1,ref:"DINSOLICITORS",photo:null,
+  periodStart:"1st January 2026",periodEnd:"1st February 2026",
+  frequency:"monthly",invNo:1,
+}];
+
+const DEF_IMM_FIRM={
+  name:"Janjua and Associates Limited",
+  address:"First Floor, Venture House, Silver Street, Halifax, HX1 1HS",
+  email:"email@ukimmigrationhelp.com",
+  phone:"",
+  oisc:"F200100025",
+  accountName:"Janjua and Associates Ltd",
+  accountNumber:"70351865",
+  sortCode:"20-35-84",
+};
+
+function load(k,fb){try{const v=localStorage.getItem(k);return v?JSON.parse(v):fb;}catch(e){return fb;}}
+
+/* ── Date utilities ── */
+const MONTH_MAP={"january":0,"february":1,"march":2,"april":3,"may":4,"june":5,"july":6,"august":7,"september":8,"october":9,"november":10,"december":11};
+// Parse "1st January 2026" or "DD/MM/YYYY" → Date object, or null
+function parseDate(str){
+  if(!str) return null;
+  str=str.trim();
+  // DD/MM/YYYY
+  const dmy=str.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if(dmy) return new Date(Number(dmy[3]),Number(dmy[2])-1,Number(dmy[1]));
+  // "1st January 2026" style
+  const wordy=str.match(/^(\d{1,2})\w*\s+(\w+)\s+(\d{4})$/i);
+  if(wordy){
+    const m=MONTH_MAP[wordy[2].toLowerCase()];
+    if(m!==undefined) return new Date(Number(wordy[3]),m,Number(wordy[1]));
+  }
+  return null;
+}
+
+// Classify a single payment: "early" | "ontime" | "late" | "unpaid"
+// early = paid before due date, ontime = paid on/within 3 days of due, late = paid after due
+function classifyPayment(inv){
+  if(!inv.paid) return "unpaid";
+  const paid=parseDate(inv.paidDate);
+  if(!paid) return "ontime";
+  // Use paymentDue if available, otherwise fall back to periodStart
+  const due=parseDate(inv.paymentDue)||parseDate(inv.periodStart);
+  if(!due) return "ontime";
+  const diffDays=(paid-due)/(1000*60*60*24);
+  if(diffDays < 0) return "early";       // paid before due date
+  if(diffDays <= 3) return "ontime";     // paid on time (3 day grace)
+  return "late";                          // paid more than 3 days after due
+}
+
+// Summarise all paid invoices for a tenant, skipping excluded ones
+function tenantPaymentProfile(tenantId, issuedInvoices){
+  const invs=issuedInvoices.filter(i=>String(i.tenantId)===String(tenantId));
+  if(invs.length===0) return null;
+  let early=0,ontime=0,late=0,unpaid=0;
+  invs.forEach(i=>{
+    if(i.excludeFromScore) return; // skip flagged invoices
+    const c=classifyPayment(i);
+    if(c==="early") early++;
+    else if(c==="ontime") ontime++;
+    else if(c==="late") late++;
+    else unpaid++;
+  });
+  const total=early+ontime+late+unpaid;
+  const paidTotal=early+ontime+late;
+  // Rating
+  let rating,colour,emoji;
+  if(total===0){rating="No history";colour="#a0b4c5";emoji="—";}
+  else if(unpaid===total){rating="No payments";colour="#b03030";emoji="⚠";}
+  else if(early>=paidTotal*0.7){rating="Excellent — pays in advance";colour="#1a7a3a";emoji="⭐";}
+  else if(late===0){rating="Good — always on time";colour="#2d6a2d";emoji="✓";}
+  else if(late<=paidTotal*0.25){rating="Mostly on time";colour="#8a6a1a";emoji="~";}
+  else{rating="Often late";colour="#b03030";emoji="⚠";}
+  return {early,ontime,late,unpaid,total,rating,colour,emoji};
+}
+
+/* ── Firebase helpers (initialised in plain script above) ── */
+const db   = window._db;
+const auth = window._auth;
+const fbSet = window._fbSet;
+const fbOn  = window._fbOn;
+
+/* Line item editor */
+function LineItems({items,setItems,placeholder}){
+  const upd=(id,f,v)=>setItems(items.map(r=>r.id===id?{...r,[f]:v}:r));
+  const rem=id=>setItems(items.filter(r=>r.id!==id));
+  const add=()=>setItems([...items,{id:uid(),description:"",amount:""}]);
+  return(
+    <div>
+      {items.map((row,i)=>(
+        <div key={row.id} className="line-row">
+          <input value={row.description} onChange={e=>upd(row.id,"description",e.target.value)} placeholder={placeholder||`Item ${i+1}`}/>
+          <input value={row.amount} onChange={e=>upd(row.id,"amount",e.target.value)} placeholder="0.00" type="number" min="0" step="0.01"/>
+          <button className="line-del" onClick={()=>rem(row.id)}>×</button>
+        </div>
+      ))}
+      <button className="add-line-btn" onClick={add}>+ Add Line</button>
+    </div>
+  );
+}
+
+/* Photo uploader (returns base64 string) */
+function PhotoUploader({photo, onPhoto, label}){
+  const ref=useRef();
+  const handleFile=e=>{
+    const file=e.target.files[0];
+    if(!file)return;
+    const reader=new FileReader();
+    reader.onload=ev=>onPhoto(ev.target.result);
+    reader.readAsDataURL(file);
+  };
+  if(photo){
+    return(
+      <div className="photo-preview">
+        <img src={photo} alt="Property"/>
+        <button className="photo-remove" onClick={()=>onPhoto(null)}>✕ Remove</button>
+      </div>
+    );
+  }
+  return(
+    <div>
+      <input ref={ref} type="file" accept="image/*" style={{display:"none"}} onChange={handleFile}/>
+      <div className="photo-upload-zone" onClick={()=>ref.current.click()}>
+        <div style={{fontSize:"1.8rem"}}>🏢</div>
+        <p>{label||"Click to upload property photo"}</p>
+        <p style={{fontSize:".75rem",color:"#aaa",marginTop:".2rem"}}>JPG, PNG — appears on invoice</p>
+      </div>
+    </div>
+  );
+}
+
+/* ── Login Component ── */
+function Login(){
+  const [email,setEmail]=useState("");
+  const [password,setPassword]=useState("");
+  const [error,setError]=useState("");
+  const [busy,setBusy]=useState(false);
+
+  const handleLogin=async()=>{
+    if(!email||!password){setError("Please enter your email and password.");return;}
+    setBusy(true);setError("");
+    try{
+      await auth.signInWithEmailAndPassword(email,password);
+    }catch(e){
+      const msgs={
+        "auth/user-not-found":"No account found with that email.",
+        "auth/wrong-password":"Incorrect password. Please try again.",
+        "auth/invalid-email":"Please enter a valid email address.",
+        "auth/too-many-requests":"Too many attempts. Please wait a moment.",
+        "auth/invalid-credential":"Incorrect email or password.",
+      };
+      setError(msgs[e.code]||"Login failed. Please try again.");
+      setBusy(false);
+    }
+  };
+
+  const handleKey=e=>{if(e.key==="Enter")handleLogin();};
+
+  return(
+    <div className="login-wrap">
+      <div className="login-box">
+        <div className="login-logo">Janjua <span>&amp;</span> Associates</div>
+        <div className="login-sub">Property Management</div>
+        {error&&<div className="login-err">{error}</div>}
+        <div className="fg">
+          <label>Email Address</label>
+          <input type="email" value={email} onChange={e=>setEmail(e.target.value)} onKeyDown={handleKey} placeholder="your@email.com" autoFocus/>
+        </div>
+        <div className="fg">
+          <label>Password</label>
+          <input type="password" value={password} onChange={e=>setPassword(e.target.value)} onKeyDown={handleKey} placeholder="••••••••"/>
+        </div>
+        <button className="btn bp" style={{width:"100%",justifyContent:"center",padding:".7rem",fontSize:"1rem"}} onClick={handleLogin} disabled={busy}>
+          {busy?"Signing in…":"Sign In"}
+        </button>
+        <div className="login-footer">🔒 Secured with Firebase Authentication</div>
+      </div>
+    </div>
+  );
+}
+
+/* ── Root: handles auth state ── */
+function Root(){
+  const [user,setUser]=useState(undefined); // undefined = checking, null = logged out
+  const { useEffect } = React;
+  useEffect(()=>{
+    const unsub=auth.onAuthStateChanged(u=>setUser(u||null));
+    return()=>unsub();
+  },[]);
+
+  if(user===undefined){
+    return(
+      <div style={{position:"fixed",inset:0,background:"#1c2b3a",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
+        <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:"1.6rem",fontWeight:700,color:"#fff",marginBottom:"1rem"}}>Janjua <span style={{color:"#c9a84c"}}>&amp;</span> Associates</div>
+        <div style={{width:"36px",height:"36px",border:"3px solid rgba(201,168,76,.3)",borderTop:"3px solid #c9a84c",borderRadius:"50%",animation:"spin 0.8s linear infinite"}}/>
+        <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
+      </div>
+    );
+  }
+  if(!user) return <Login/>;
+  return <App user={user}/>;
+}
+
+
+function App({user}){
+  const [screen,setScreen]=useState("dashboard");
+  const [landlord,setLLRaw]=useState(DEF_LANDLORD);
+  const [tenants,setTenantsRaw]=useState(DEF_TENANTS);
+  const [nextId,setNextIdRaw]=useState(2);
+  const [editTenant,setEditTenant]=useState(null);
+  const [invTenant,setInvTenant]=useState(null);
+  const [invView,setInvView]=useState("tenant");
+  const [stampOn,setStampOn]=useState(false);
+  const [stampDate,setStampDate]=useState(todayStr());
+  const [issueDate,setIssueDate]=useState(todayStr());
+  const [paymentDue,setPaymentDue]=useState("");
+  const [financialYear,setFinancialYear]=useState(getFY(new Date()));
+  const [extraCharges,setExtraCharges]=useState([]);
+  const [expendLines,setExpendLines]=useState([{id:uid(),description:"",amount:""}]);
+  const [issuedInvoices,setIssuedInvoicesRaw]=useState([]);
+  const [filterTenant,setFilterTenant]=useState("all");
+  const [recordsTab,setRecordsTab]=useState("invoices");
+  const [recordsRange,setRecordsRange]=useState("all");
+  const [filterFY,setFilterFY]=useState("all");
+  const [dashTab,setDashTab]=useState("generate");
+  const [invMemo,setInvMemo]=useState("");
+  const [toast,setToast]=useState(null);
+  // ── Immigration state ──
+  const [immFirm,setImmFirmRaw]=useState(DEF_IMM_FIRM);
+  const [immClients,setImmClientsRaw]=useState([]);
+  const [immCases,setImmCasesRaw]=useState([]);
+  const [immFeeNotes,setImmFeeNotesRaw]=useState([]);
+  const [immNextClientId,setImmNextClientIdRaw]=useState(1);
+  const [immNextCaseId,setImmNextCaseIdRaw]=useState(1);
+  const [immScreen,setImmScreen]=useState("dashboard");
+  const [editImmClient,setEditImmClient]=useState(null);
+  const [editImmCase,setEditImmCase]=useState(null);
+  const [fnCase,setFnCase]=useState(null); // case being fee-noted
+  const [fnIssueDate,setFnIssueDate]=useState(todayStr());
+  const [fnPaymentDue,setFnPaymentDue]=useState("");
+  const [fnDisburse,setFnDisburse]=useState([]);
+  const [fnMemo,setFnMemo]=useState("");
+  const [fnFY,setFnFY]=useState(getFY(new Date()));
+  const [immFilterStatus,setImmFilterStatus]=useState("all");
+  const [immFilterClient,setImmFilterClient]=useState("all");
+
+  /* ── Subscribe to Firebase on mount ── */
+  const { useEffect } = React;
+  useEffect(()=>{
+    user.getIdToken(true).then(()=>{
+      // Seed defaults if first run
+      db.ref('landlord').once('value',snap=>{if(snap.val()===null) fbSet('landlord',DEF_LANDLORD);});
+      db.ref('tenants').once('value',snap=>{if(snap.val()===null) fbSet('tenants',DEF_TENANTS);});
+      db.ref('nextId').once('value',snap=>{if(snap.val()===null) fbSet('nextId',2);});
+      // Real-time listeners
+      db.ref('landlord').on('value',snap=>{const v=snap.val();if(v) setLLRaw(v);});
+      db.ref('tenants').on('value',snap=>{
+        const v=snap.val();
+        if(v){const arr=Array.isArray(v)?v:Object.values(v);setTenantsRaw(arr.filter(Boolean));}
+      });
+      db.ref('nextId').on('value',snap=>{const v=snap.val();if(v!==null)setNextIdRaw(v);});
+      db.ref('issuedInvoices').on('value',snap=>{
+        const v=snap.val();
+        if(v){const arr=Array.isArray(v)?v:Object.values(v);setIssuedInvoicesRaw(arr.filter(Boolean));}
+        else setIssuedInvoicesRaw([]);
+      });
+      // Immigration listeners
+      db.ref('immFirm').once('value',snap=>{if(snap.val()===null) fbSet('immFirm',DEF_IMM_FIRM);});
+      db.ref('immNextClientId').once('value',snap=>{if(snap.val()===null) fbSet('immNextClientId',1);});
+      db.ref('immNextCaseId').once('value',snap=>{if(snap.val()===null) fbSet('immNextCaseId',1);});
+      db.ref('immFirm').on('value',snap=>{const v=snap.val();if(v) setImmFirmRaw(v);});
+      db.ref('immClients').on('value',snap=>{const v=snap.val();if(v){const arr=Array.isArray(v)?v:Object.values(v);setImmClientsRaw(arr.filter(Boolean));}else setImmClientsRaw([]);});
+      db.ref('immCases').on('value',snap=>{const v=snap.val();if(v){const arr=Array.isArray(v)?v:Object.values(v);setImmCasesRaw(arr.filter(Boolean));}else setImmCasesRaw([]);});
+      db.ref('immFeeNotes').on('value',snap=>{const v=snap.val();if(v){const arr=Array.isArray(v)?v:Object.values(v);setImmFeeNotesRaw(arr.filter(Boolean));}else setImmFeeNotesRaw([]);});
+      db.ref('immNextClientId').on('value',snap=>{const v=snap.val();if(v!==null)setImmNextClientIdRaw(v);});
+      db.ref('immNextCaseId').on('value',snap=>{const v=snap.val();if(v!==null)setImmNextCaseIdRaw(v);});
+    }).catch(e=>console.error("Auth token error:",e));
+    return()=>{db.ref('landlord').off();db.ref('tenants').off();db.ref('nextId').off();db.ref('issuedInvoices').off();};
+  },[]);
+
+  const setLL=v=>{setLLRaw(v);fbSet('landlord',v);};
+  const setTenants=v=>{setTenantsRaw(v);fbSet('tenants',v);};
+  const setIssuedInvoices=v=>{setIssuedInvoicesRaw(v);fbSet('issuedInvoices',v);};
+  const setImmFirm=v=>{setImmFirmRaw(v);fbSet('immFirm',v);};
+  const setImmClients=v=>{setImmClientsRaw(v);fbSet('immClients',v);};
+  const setImmCases=v=>{setImmCasesRaw(v);fbSet('immCases',v);};
+  const setImmFeeNotes=v=>{setImmFeeNotesRaw(v);fbSet('immFeeNotes',v);};
+  const setImmNextClientId=v=>{setImmNextClientIdRaw(v);fbSet('immNextClientId',v);};
+  const setImmNextCaseId=v=>{setImmNextCaseIdRaw(v);fbSet('immNextCaseId',v);};
+  const setNextId=fn=>{
+    setNextIdRaw(prev=>{
+      const next=typeof fn==='function'?fn(prev):fn;
+      fbSet('nextId',next);
+      return next;
+    });
+  };
+  const showToast=msg=>{setToast(msg);setTimeout(()=>setToast(null),2500);};
+
+  /* ── One-time migration: backfill paymentDue on invoices that don't have it ── */
+  useEffect(()=>{
+    if(issuedInvoices.length===0||tenants.length===0) return;
+    const needsFix=issuedInvoices.filter(i=>!i.paymentDue);
+    if(needsFix.length===0) return;
+    const tenantMap={};
+    tenants.forEach(t=>{tenantMap[String(t.id)]=t;});
+    const updated=issuedInvoices.map(inv=>{
+      if(inv.paymentDue) return inv;
+      const t=tenantMap[String(inv.tenantId)];
+      if(!t) return inv;
+      const dueDay=Number(t.dueDay)||1;
+      const periodDate=parseDate(inv.periodStart);
+      if(!periodDate) return inv;
+      const d=new Date(periodDate.getFullYear(),periodDate.getMonth(),dueDay);
+      const due=`${String(d.getDate()).padStart(2,"0")}/${String(d.getMonth()+1).padStart(2,"0")}/${d.getFullYear()}`;
+      return {...inv,paymentDue:due};
+    });
+    setIssuedInvoices(updated);
+    showToast(`✓ Backfilled payment due dates on ${needsFix.length} invoice${needsFix.length!==1?"s":""}.`);
+  },[issuedInvoices.length, tenants.length]);
+
+  /* ── Migration v2: force-recalculate ALL paymentDue dates (runs once after due day change) ── */
+  useEffect(()=>{
+    if(issuedInvoices.length===0||tenants.length===0) return;
+    db.ref('migV2').once('value',snap=>{
+      if(snap.val()) return; // already run
+      const tenantMap={};
+      tenants.forEach(t=>{tenantMap[String(t.id)]=t;});
+      const updated=issuedInvoices.map(inv=>{
+        const t=tenantMap[String(inv.tenantId)];
+        if(!t) return inv;
+        const dueDay=Number(t.dueDay)||1;
+        const periodDate=parseDate(inv.periodStart);
+        if(!periodDate) return inv;
+        const d=new Date(periodDate.getFullYear(),periodDate.getMonth(),dueDay);
+        const due=`${pad(d.getDate())}/${pad(d.getMonth()+1)}/${d.getFullYear()}`;
+        return {...inv,paymentDue:due};
+      });
+      setIssuedInvoices(updated);
+      fbSet('migV2',true);
+      showToast(`✓ Payment due dates refreshed on ${issuedInvoices.length} invoice${issuedInvoices.length!==1?"s":""}.`);
+    });
+  },[issuedInvoices.length,tenants.length]);
+
+  /* ── Migration v3: backfill financialYear + fyInvNo on existing invoices ── */
+  useEffect(()=>{
+    if(issuedInvoices.length===0) return;
+    const needsFY=issuedInvoices.filter(i=>!i.financialYear);
+    if(needsFY.length===0) return;
+    // Group by tenantId + FY to assign sequential fyInvNo
+    const fyMap={}; // key: tenantId+fy → counter
+    const sortedAll=[...issuedInvoices].sort((a,b)=>a.invNo-b.invNo);
+    const updated=sortedAll.map(inv=>{
+      if(inv.financialYear) return inv;
+      const d=parseDate(inv.dateIssued)||parseDate(inv.periodStart)||new Date();
+      const fy=getFY(d);
+      const key=`${inv.tenantId}::${fy}`;
+      if(!fyMap[key]) fyMap[key]=1;
+      const fyInvNo=fyMap[key]++;
+      return {...inv,financialYear:fy,fyInvNo};
+    });
+    setIssuedInvoices(updated);
+    showToast(`✓ Financial year assigned to ${needsFY.length} invoice${needsFY.length!==1?"s":""}.`);
+  },[issuedInvoices.length]);
+
+  const openInvoice=t=>{
+    setInvTenant(t);
+    setExtraCharges([]);
+    setExpendLines([{id:uid(),description:"",amount:""}]);
+    setStampOn(false);setStampDate(todayStr());setIssueDate(todayStr());setInvMemo("");
+    setFinancialYear(getFY(new Date()));
+    const dueDay=Number(t.dueDay)||1;
+    const periodDate=parseDate(t.periodStart);
+    let autoDue="";
+    if(periodDate){
+      const d=new Date(periodDate.getFullYear(),periodDate.getMonth(),dueDay);
+      autoDue=`${pad(d.getDate())}/${pad(d.getMonth()+1)}/${d.getFullYear()}`;
+    }
+    setPaymentDue(autoDue);
+    setInvView("tenant");
+    setScreen("invoice");
+  };
+
+  const issueInvoice=()=>{
+    const fyInvNo=(invTenant.fyCounters&&invTenant.fyCounters[financialYear])||1;
+    const record={
+      id:uid(),
+      tenantId:invTenant.id,
+      tenantName:invTenant.companyName||invTenant.contactName,
+      property:invTenant.property,
+      invNo,
+      fyInvNo,
+      financialYear,
+      dateIssued:issueDate,
+      paymentDue:paymentDue||"",
+      periodStart:invTenant.periodStart||"",
+      periodEnd:invTenant.periodEnd||"",
+      frequency:invTenant.frequency||"monthly",
+      amountDue:totalDue,
+      expenditure:totalExpend,
+      expendLines:expendLines.filter(r=>r.description||r.amount),
+      extraCharges:extraCharges.filter(r=>r.description||r.amount),
+      memo:invMemo||"",
+      paid:stampOn,
+      paidDate:stampOn?stampDate:null,
+      dueDateStr:invTenant.periodEnd||todayStr(),
+    };
+    const updated=[...issuedInvoices,record];
+    setIssuedInvoices(updated);
+    setInvNo(invTenant.id, invNo+1);
+    // Increment fyCounters for this financial year
+    const newFyCounters={...(invTenant.fyCounters||{}), [financialYear]:fyInvNo+1};
+    const updatedTenantsFY=tenants.map(t=>t.id===invTenant.id?{...t,fyCounters:newFyCounters}:t);
+    setTenants(updatedTenantsFY);
+    setInvTenant({...invTenant,fyCounters:newFyCounters});
+    // Auto-advance tenant's rental period to next month/quarter
+    const nextP=advancePeriod(invTenant.periodStart,invTenant.periodEnd,invTenant.frequency||"monthly");
+    if(nextP){
+      const updatedTenants=tenants.map(t=>t.id===invTenant.id?{...t,...nextP}:t);
+      setTenants(updatedTenants);
+      setInvTenant({...invTenant,...nextP});
+    }
+    showToast(stampOn?"✓ Invoice issued and marked as paid!":"✓ Invoice issued — period auto-advanced!");
+  };
+
+  const markPaid=(invoiceId,paidDate)=>{
+    const updated=issuedInvoices.map(i=>i.id===invoiceId?{...i,paid:true,paidDate:paidDate||todayStr()}:i);
+    setIssuedInvoices(updated);
+    showToast("✓ Marked as paid!");
+  };
+
+  const deleteInvoice=(invoiceId)=>{
+    if(!window.confirm("Delete this invoice record? This cannot be undone.")) return;
+    const updated=issuedInvoices.filter(i=>i.id!==invoiceId);
+    setIssuedInvoices(updated);
+    showToast("Record deleted.");
+  };
+
+  // When stamp is toggled on, find the matching issued record and mark it paid with the stamp date
+  const handleStampToggle=(on)=>{
+    setStampOn(on);
+    if(invTenant){
+      const match=issuedInvoices.find(i=>
+        String(i.tenantId)===String(invTenant.id) && Number(i.invNo)===Number(invNo)
+      );
+      if(match){
+        if(on && !match.paid){
+          markPaid(match.id, stampDate);
+          showToast("✓ Stamp applied — invoice marked as paid on "+stampDate);
+        } else if(!on && match.paid){
+          // un-stamp — revert to unpaid
+          const upd=issuedInvoices.map(i=>i.id===match.id?{...i,paid:false,paidDate:null}:i);
+          setIssuedInvoices(upd);
+          showToast("Stamp removed — invoice marked as unpaid.");
+        }
+      }
+    }
+  };
+
+  // Update invoice number for a tenant and keep invTenant in sync
+  const setInvNo=(id,val)=>{
+    const n=Math.max(1,Number(val)||1);
+    const updated=tenants.map(t=>t.id===id?{...t,invNo:n}:t);
+    setTenants(updated);
+    if(invTenant&&invTenant.id===id) setInvTenant({...invTenant,invNo:n});
+  };
+
+  const updateTenantPhoto=(id,photo)=>{
+    const updated=tenants.map(t=>t.id===id?{...t,photo}:t);
+    setTenants(updated);
+    if(invTenant&&invTenant.id===id) setInvTenant({...invTenant,photo});
+  };
+
+  const baseRent=invTenant?Number(invTenant.rent):0;
+  const extraChargesTotal=sumLines(extraCharges);
+  const totalDue=baseRent+extraChargesTotal;
+  const totalExpend=sumLines(expendLines);
+  const netToLandlord=Math.max(0,totalDue-totalExpend);
+  const periodStart=invTenant?.periodStart||"";
+  const periodEnd=invTenant?.periodEnd||"";
+  const invNo=invTenant?.invNo||1;
+
+  // Fix: quarterly tenants pay 4x per year, monthly pay 12x
+  const totalAnnualRent=tenants.reduce((s,t)=>{
+    const r=Number(t.rent);
+    return s+(t.frequency==="quarterly"?r*4:r*12);
+  },0);
+  const totalMonthlyRent=tenants.reduce((s,t)=>{
+    const r=Number(t.rent);
+    return s+(t.frequency==="quarterly"?r/3:r);
+  },0);
+
+  return(
+    <div>
+      <nav className="nav no-print">
+        <div className="nav-logo">Janjua <span>&amp;</span> Associates</div>
+        <button className={`nav-btn ${screen==="dashboard"?"active":""}`} onClick={()=>setScreen("dashboard")}>Dashboard</button>
+        <button className={`nav-btn ${screen==="tenants"?"active":""}`} onClick={()=>setScreen("tenants")}>Tenants</button>
+        <button className={`nav-btn ${screen==="records"?"active":""}`} onClick={()=>setScreen("records")}>Records</button>
+        <button className={`nav-btn ${screen==="settings"?"active":""}`} onClick={()=>setScreen("settings")}>Settings</button>
+        <div style={{width:"1px",background:"rgba(255,255,255,.12)",margin:"10px 0.4rem"}}/>
+        <button className={`nav-btn ${screen==="immigration"?"active":""}`} style={{color:screen==="immigration"?"#fff":"#c9a84c"}} onClick={()=>setScreen("immigration")}>⚖ Immigration</button>
+        <button className="nav-btn" style={{marginLeft:"auto",fontSize:".8rem",color:"#6b8a9a"}} onClick={()=>auth.signOut()}>Sign Out</button>
+      </nav>
+
+      {/* ── DASHBOARD ── */}
+      {screen==="dashboard"&&(
+        <div className="pg">
+          <h1>Dashboard</h1>
+          <p className="sub">Overview of your properties and generate invoices for your tenants.</p>
+
+          {/* Stats row */}
+          <div className="sg" style={{gridTemplateColumns:"repeat(4,1fr)"}}>
+            <div className="st"><div className="sl">Tenants</div><div className="sv">{tenants.length}</div></div>
+            <div className="st"><div className="sl">Monthly Rent</div><div className="sv">£{fmt(totalMonthlyRent)}</div></div>
+            <div className="st"><div className="sl">Annual Rent</div><div className="sv">£{fmt(totalAnnualRent)}</div></div>
+            <div className="st"><div className="sl">Total Expenditure</div><div className="sv" style={{color:"#b03030"}}>£{fmt(issuedInvoices.reduce((s,i)=>s+Number(i.expenditure||0),0))}</div></div>
+          </div>
+
+          {/* Tab toggle */}
+          <div style={{display:"flex",background:"#f0ece4",borderRadius:"7px",padding:".25rem",marginBottom:"1.5rem",width:"fit-content"}}>
+            <button className={`btn bs ${dashTab==="generate"?"bp":""}`} style={{borderRadius:"5px",border:"none"}} onClick={()=>setDashTab("generate")}>
+              🧾 Generate Invoices
+            </button>
+            <button className={`btn bs ${dashTab==="payments"?"bp":""}`} style={{borderRadius:"5px",border:"none",marginLeft:".2rem"}} onClick={()=>setDashTab("payments")}>
+              💳 Payments
+              {issuedInvoices.filter(i=>!i.paid).length>0&&(
+                <span style={{background:"#e07070",color:"#fff",borderRadius:"20px",fontSize:".68rem",fontWeight:700,padding:".1rem .45rem",marginLeft:".4rem"}}>
+                  {issuedInvoices.filter(i=>!i.paid).length}
+                </span>
+              )}
+            </button>
+          </div>
+
+          {/* ── GENERATE TAB ── */}
+          {dashTab==="generate"&&(
+            <>
+              {/* Upcoming payment reminders */}
+              {(()=>{
+                const today=new Date();
+                const in7=new Date(today);in7.setDate(today.getDate()+7);
+                const upcoming=tenants.filter(t=>{
+                  if(!t.dueDay) return false;
+                  const d=new Date(today.getFullYear(),today.getMonth(),Number(t.dueDay));
+                  return d>=today && d<=in7 && issuedInvoices.some(i=>String(i.tenantId)===String(t.id)&&!i.paid);
+                });
+                if(upcoming.length===0) return null;
+                return(
+                  <div style={{background:"#fff8e6",border:"1.5px solid #c9a84c",borderRadius:"8px",padding:"1rem 1.3rem",marginBottom:"1.2rem"}}>
+                    <div style={{fontWeight:700,color:"#8a6a1a",marginBottom:".5rem"}}>📅 Payments due in the next 7 days</div>
+                    {upcoming.map(t=>(
+                      <div key={t.id} style={{fontSize:".88rem",color:"#6b5a1a",display:"flex",justifyContent:"space-between",padding:".2rem 0",borderBottom:"1px solid #f0e0a0"}}>
+                        <span>{t.companyName||t.contactName} · {t.property}</span>
+                        <span style={{fontWeight:600}}>Due {ordinal(t.dueDay)} · £{fmt(t.rent)}</span>
+                      </div>
+                    ))}
+                  </div>
+                );
+              })()}
+              {tenants.length===0?(
+                <div className="card" style={{textAlign:"center",color:"#6b7e8f",padding:"3rem"}}>
+                  <div style={{fontSize:"2.5rem",marginBottom:".8rem"}}>🏢</div>
+                  <p>No tenants yet. <button className="btn bo bs" style={{marginLeft:".5rem"}} onClick={()=>setScreen("tenants")}>Add Tenant</button></p>
+                </div>
+              ):tenants.map(t=>{
+                const profile=tenantPaymentProfile(t.id,issuedInvoices);
+                return(
+                <div key={t.id} className="card tc">
+                  {t.photo
+                    ? <img src={t.photo} alt="" className="t-photo"/>
+                    : <div className="av">{(t.companyName||t.contactName||"?").charAt(0).toUpperCase()}</div>
+                  }
+                  <div className="ti">
+                    <div className="tn">{t.companyName||t.contactName} <span className="badge">Active</span></div>
+                    <div className="tm">{t.property}{t.contactName?` · ${t.contactName}`:""}</div>
+                    <div className="tm">🔁 {t.frequency==="quarterly"?"Quarterly":"Monthly"} · Invoice #{t.invNo||1}</div>
+                    {profile&&<div className="tm" style={{color:profile.colour,fontWeight:600,marginTop:"2px"}}>{profile.emoji} {profile.rating} <span style={{color:"#a0b4c5",fontWeight:400}}>({profile.total} invoice{profile.total!==1?"s":""})</span></div>}
+                    {profile&&profile.total>0&&(
+                      <div className="pay-bar" style={{width:"120px"}}>
+                        {profile.early>0&&<div className="pay-bar-seg" style={{flex:profile.early,background:"#c9a84c"}} title={`${profile.early} early`}/>}
+                        {profile.ontime>0&&<div className="pay-bar-seg" style={{flex:profile.ontime,background:"#2d6a2d"}} title={`${profile.ontime} on time`}/>}
+                        {profile.late>0&&<div className="pay-bar-seg" style={{flex:profile.late,background:"#e07070"}} title={`${profile.late} late`}/>}
+                        {profile.unpaid>0&&<div className="pay-bar-seg" style={{flex:profile.unpaid,background:"#ddd8ce"}} title={`${profile.unpaid} unpaid`}/>}
+                      </div>
+                    )}
+                  </div>
+                  <span className="tr">£{fmt(t.rent)}/{t.frequency==="quarterly"?"qtr":"mo"}</span>
+                  <button className="btn bg" onClick={()=>openInvoice(t)}>Generate Invoice</button>
+                </div>
+                );
+              })}
+            </>
+          )}
+
+          {/* ── PAYMENTS TAB ── */}
+          {dashTab==="payments"&&(()=>{
+            const received=issuedInvoices.filter(i=>i.paid);
+            const outstanding=issuedInvoices.filter(i=>!i.paid);
+            const totalReceived=received.reduce((s,i)=>s+Number(i.amountDue||0),0);
+            const totalOutstanding=outstanding.reduce((s,i)=>s+Number(i.amountDue||0),0);
+            return(
+              <>
+                <div className="sg" style={{gridTemplateColumns:"1fr 1fr",marginBottom:"1.5rem"}}>
+                  <div className="st"><div className="sl">Total Received</div><div className="sv" style={{color:"#2d6a2d"}}>£{fmt(totalReceived)}</div></div>
+                  <div className="st"><div className="sl">Total Outstanding</div><div className="sv" style={{color:"#b03030"}}>£{fmt(totalOutstanding)}</div></div>
+                </div>
+
+                {outstanding.length>0&&(
+                  <div style={{marginBottom:"2rem"}}>
+                    <h2 style={{color:"#b03030",marginBottom:".8rem"}}>⚠ Outstanding</h2>
+                    {outstanding.sort((a,b)=>b.invNo-a.invNo).map(i=>{
+                      const od=isOverdue(i);
+                      return(
+                      <div key={i.id} className="card tc" style={{borderLeft:`3px solid ${od?"#e07070":"#c9a84c"}`}}>
+                        <div className="ti">
+                          <div className="tn">{i.tenantName}
+                            {od
+                              ? <span className="badge badge-overdue">🔴 Overdue</span>
+                              : <span className="badge" style={{background:"#fff8e6",color:"#8a6a1a"}}>⏳ Unpaid</span>
+                            }
+                          </div>
+                          <div className="tm">{i.property} · Demand #{i.invNo}</div>
+                          <div className="tm">Period: {i.periodStart} – {i.periodEnd} · {i.paymentDue?`Due: ${i.paymentDue}`:`Issued: ${i.dateIssued}`}</div>
+                        </div>
+                        <span className="tr" style={{color:"#b03030"}}>£{fmt(i.amountDue)}</span>
+                        <button className="btn bg bs" onClick={()=>markPaid(i.id)}>Mark Paid</button>
+                      </div>
+                      );
+                    })}
+                  </div>
+                )}
+
+                {received.length>0&&(
+                  <div>
+                    <h2 style={{color:"#2d6a2d",marginBottom:".8rem"}}>✓ Received</h2>
+                    {received.sort((a,b)=>b.invNo-a.invNo).map(i=>(
+                      <div key={i.id} className="card tc" style={{borderLeft:"3px solid #7acc7a"}}>
+                        <div className="ti">
+                          <div className="tn">{i.tenantName} <span className="badge badge-paid">Paid</span></div>
+                          <div className="tm">{i.property} · {i.frequency==="quarterly"?"Quarterly":"Monthly"} · Demand #{i.invNo}</div>
+                          <div className="tm">Period: {i.periodStart} – {i.periodEnd} · Paid: {i.paidDate||"—"}</div>
+                        </div>
+                        <span className="tr" style={{color:"#2d6a2d"}}>£{fmt(i.amountDue)}</span>
+                        <button className="btn bo bs" style={{fontSize:".75rem"}} onClick={()=>{
+                          const upd=issuedInvoices.map(x=>x.id===i.id?{...x,paid:false,paidDate:null}:x);
+                          setIssuedInvoices(upd);
+                        }}>Undo</button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {issuedInvoices.length===0&&(
+                  <div className="card" style={{textAlign:"center",color:"#6b7e8f",padding:"3rem"}}>
+                    No invoices issued yet. Use Generate Invoices to get started.
+                  </div>
+                )}
+
+                {/* Tenant payment ratings */}
+                {tenants.length>0&&issuedInvoices.length>0&&(
+                  <div style={{marginTop:"2rem"}}>
+                    <h2 style={{marginBottom:".8rem"}}>🏅 Tenant Payment Ratings</h2>
+                    {tenants.map(t=>{
+                      const p=tenantPaymentProfile(t.id,issuedInvoices);
+                      if(!p) return null;
+                      return(
+                        <div key={t.id} className="card" style={{padding:"1.1rem 1.5rem",marginBottom:".7rem",borderLeft:`3px solid ${p.colour}`}}>
+                          <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",flexWrap:"wrap",gap:".5rem"}}>
+                            <div style={{flex:1}}>
+                              <div style={{fontWeight:600,color:"#1c2b3a",fontSize:"1rem"}}>{t.companyName||t.contactName}</div>
+                              <div style={{fontSize:".83rem",color:"#6b7e8f",marginTop:"2px"}}>{t.property}</div>
+                              <div style={{fontWeight:600,color:p.colour,fontSize:".88rem",marginTop:".35rem"}}>{p.emoji} {p.rating}</div>
+                              {/* Progress bar */}
+                              {p.total>0&&(
+                                <div style={{marginTop:".5rem"}}>
+                                  <div className="pay-bar" style={{width:"240px",height:"8px"}}>
+                                    {p.early>0&&<div className="pay-bar-seg" style={{flex:p.early,background:"#c9a84c"}}/>}
+                                    {p.ontime>0&&<div className="pay-bar-seg" style={{flex:p.ontime,background:"#2d6a2d"}}/>}
+                                    {p.late>0&&<div className="pay-bar-seg" style={{flex:p.late,background:"#e07070"}}/>}
+                                    {p.unpaid>0&&<div className="pay-bar-seg" style={{flex:p.unpaid,background:"#ddd8ce"}}/>}
+                                  </div>
+                                  <div style={{display:"flex",gap:"1rem",marginTop:".3rem",fontSize:".75rem",flexWrap:"wrap"}}>
+                                    {p.early>0&&<span style={{color:"#8a6a1a"}}>⭐ {p.early} early</span>}
+                                    {p.ontime>0&&<span style={{color:"#2d6a2d"}}>✓ {p.ontime} on time</span>}
+                                    {p.late>0&&<span style={{color:"#b03030"}}>⚠ {p.late} late</span>}
+                                    {p.unpaid>0&&<span style={{color:"#a0b4c5"}}>○ {p.unpaid} unpaid</span>}
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                            <div style={{textAlign:"right"}}>
+                              <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:"1.4rem",fontWeight:700,color:"#1c2b3a"}}>£{fmt(issuedInvoices.filter(i=>String(i.tenantId)===String(t.id)&&i.paid).reduce((s,i)=>s+Number(i.amountDue||0),0))}</div>
+                              <div style={{fontSize:".75rem",color:"#6b7e8f"}}>total received</div>
+                              <div style={{fontSize:".78rem",color:"#a0b4c5",marginTop:".2rem"}}>{p.total} invoice{p.total!==1?"s":""}</div>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </>
+            );
+          })()}
+        </div>
+      )}
+
+      {/* ── TENANTS ── */}
+      {screen==="tenants"&&(
+        <div className="pg">
+          <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-end",marginBottom:"1.8rem"}}>
+            <div><h1>Tenants</h1><p className="sub" style={{marginBottom:0}}>Manage tenant details and property photos</p></div>
+            <button className="btn bp" onClick={()=>setEditTenant({id:null,companyName:"",contactName:"",address:"",email:"",property:"",rent:"",dueDay:1,ref:"",photo:null,periodStart:"",periodEnd:"",frequency:"monthly",invNo:1,notes:""})}>+ Add Tenant</button>
+          </div>
+          {tenants.length===0?(
+            <div className="card" style={{textAlign:"center",color:"#6b7e8f",padding:"3rem"}}>No tenants added yet.</div>
+          ):tenants.map(t=>(
+            <div key={t.id} className="card tc">
+              {t.photo
+                ? <img src={t.photo} alt="" className="t-photo"/>
+                : <div className="t-photo-placeholder" onClick={()=>setEditTenant({...t})} title="Add photo">📷</div>
+              }
+              <div className="ti">
+                <div className="tn">{t.companyName||t.contactName}</div>
+                <div className="tm">{t.property}</div>
+                <div className="tm">📧 {t.email||"No email"} · Contact: {t.contactName} · Ref: {t.ref||"—"}</div>
+                {(t.periodStart||t.periodEnd)&&<div className="tm">📅 {t.periodStart||"?"} – {t.periodEnd||"?"}</div>}
+                <div className="tm">🔁 {t.frequency==="quarterly"?"Quarterly (Quarter Days)":"Monthly"} · 📆 Due: {ordinal(t.dueDay||1)} of each month</div>
+                {t.notes&&<div className="tm" style={{marginTop:"3px",fontStyle:"italic",color:"#8a7a5a"}}>📝 {t.notes}</div>}
+              </div>
+              <span className="tr">£{fmt(t.rent)}</span>
+              <div style={{display:"flex",gap:".5rem"}}>
+                <button className="btn bo bs" onClick={()=>setEditTenant({...t})}>Edit</button>
+                <button className="btn bd bs" onClick={()=>{setTenants(tenants.filter(x=>x.id!==t.id));showToast("Tenant removed.");}}>Remove</button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* ── RECORDS ── */}
+      {screen==="records"&&(()=>{
+        // Date range filtering helper
+        const now=new Date();
+        const inRange=inv=>{
+          if(recordsRange==="all") return true;
+          const d=parseDate(inv.dateIssued)||parseDate(inv.periodStart);
+          if(!d) return true;
+          if(recordsRange==="thisMonth") return d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear();
+          if(recordsRange==="thisQuarter"){const q=Math.floor(now.getMonth()/3);return Math.floor(d.getMonth()/3)===q&&d.getFullYear()===now.getFullYear();}
+          if(recordsRange==="thisYear") return d.getFullYear()===now.getFullYear();
+          return true;
+        };
+        const filtered=(filterTenant==="all"
+          ?[...issuedInvoices]
+          :issuedInvoices.filter(i=>String(i.tenantId)===String(filterTenant))
+        ).filter(inRange).filter(i=>filterFY==="all"||i.financialYear===filterFY);
+        const sorted=[...filtered].sort((a,b)=>b.invNo-a.invNo);
+        const totalReceived=sorted.filter(i=>i.paid).reduce((s,i)=>s+Number(i.amountDue||0),0);
+        const totalOutstanding=sorted.filter(i=>!i.paid).reduce((s,i)=>s+Number(i.amountDue||0),0);
+        const totalExpend=sorted.reduce((s,i)=>s+Number(i.expenditure||0),0);
+
+        const exportCSV=()=>{
+          const rows=[["#","Tenant","Property","Period Start","Period End","Issued","Due","Amount","Expenditure","Status","Paid Date","Score"]];
+          sorted.forEach(inv=>{
+            const cls=classifyPayment(inv);
+            rows.push([inv.invNo,inv.tenantName,inv.property,inv.periodStart,inv.periodEnd,inv.dateIssued,inv.paymentDue||"",inv.amountDue,inv.expenditure||0,inv.paid?"Paid":"Unpaid",inv.paidDate||"",inv.excludeFromScore?"Excluded":cls]);
+          });
+          const csv=rows.map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(",")).join("\n");
+          const a=document.createElement("a");
+          a.href="data:text/csv;charset=utf-8,"+encodeURIComponent(csv);
+          a.download=`janjua-records-${todayStr().replace(/\//g,"-")}.csv`;
+          a.click();
+        };
+
+        // Property statements — group by property
+        const statementsFiltered=filterTenant==="all"
+          ?[...issuedInvoices]
+          :issuedInvoices.filter(i=>String(i.tenantId)===String(filterTenant));
+        const byProperty={};
+        statementsFiltered.forEach(inv=>{
+          const key=inv.property||inv.tenantName;
+          if(!byProperty[key]) byProperty[key]={property:key,tenantName:inv.tenantName,records:[]};
+          byProperty[key].records.push(inv);
+        });
+
+        return(
+          <div className="pg">
+            {/* Header */}
+            <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-end",marginBottom:"1.2rem",flexWrap:"wrap",gap:"1rem"}}>
+              <div>
+                <h1>Records</h1>
+                <p className="sub" style={{marginBottom:0}}>Invoice history and property expenditure</p>
+              </div>
+              <button className="btn bo bs" onClick={exportCSV}>⬇ Export CSV</button>
+            </div>
+            {/* Filters row */}
+            <div style={{display:"flex",gap:".7rem",flexWrap:"wrap",marginBottom:"1.3rem",alignItems:"center"}}>
+              <div style={{display:"flex",alignItems:"center",gap:".5rem"}}>
+                <label style={{margin:0,fontSize:".78rem",whiteSpace:"nowrap"}}>Tenant:</label>
+                <select value={filterTenant} onChange={e=>setFilterTenant(e.target.value)} style={{width:"auto",padding:".38rem .7rem"}}>
+                  <option value="all">All Tenants</option>
+                  {tenants.map(t=>(
+                    <option key={t.id} value={t.id}>{t.companyName||t.contactName}</option>
+                  ))}
+                </select>
+              </div>
+              <div style={{display:"flex",alignItems:"center",gap:".5rem"}}>
+                <label style={{margin:0,fontSize:".78rem",whiteSpace:"nowrap"}}>FY:</label>
+                <select value={filterFY||"all"} onChange={e=>setFilterFY(e.target.value)} style={{width:"auto",padding:".38rem .7rem"}}>
+                  <option value="all">All Years</option>
+                  {[...new Set(issuedInvoices.map(i=>i.financialYear).filter(Boolean))].sort().reverse().map(fy=>(
+                    <option key={fy} value={fy}>{fy}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+            <div style={{display:"flex",background:"#f0ece4",borderRadius:"7px",padding:".25rem",marginBottom:"1.5rem",width:"fit-content"}}>
+              <button className={`btn bs ${recordsTab==="invoices"?"bp":""}`} style={{borderRadius:"5px",border:"none"}} onClick={()=>setRecordsTab("invoices")}>
+                📄 Invoice Records
+              </button>
+              <button className={`btn bs ${recordsTab==="statements"?"bp":""}`} style={{borderRadius:"5px",border:"none",marginLeft:".2rem"}} onClick={()=>setRecordsTab("statements")}>
+                📊 Property Statements
+              </button>
+            </div>
+
+            {/* ── INVOICE RECORDS TAB ── */}
+            {recordsTab==="invoices"&&(<>
+              <div className="sg" style={{gridTemplateColumns:"repeat(3,1fr)",marginBottom:"1.5rem"}}>
+                <div className="st"><div className="sl">Received</div><div className="sv" style={{color:"#2d6a2d"}}>£{fmt(totalReceived)}</div></div>
+                <div className="st"><div className="sl">Outstanding</div><div className="sv" style={{color:"#b03030"}}>£{fmt(totalOutstanding)}</div></div>
+                <div className="st"><div className="sl">Expenditure</div><div className="sv" style={{color:"#b03030"}}>£{fmt(totalExpend)}</div></div>
+              </div>
+
+              {/* Tenant score summary */}
+              {tenants.length>0&&issuedInvoices.length>0&&(
+                <div style={{display:"flex",gap:".7rem",flexWrap:"wrap",marginBottom:"1.5rem"}}>
+                  {tenants.map(t=>{
+                    const p=tenantPaymentProfile(t.id,issuedInvoices);
+                    if(!p||p.total===0) return null;
+                    return(
+                      <div key={t.id} style={{background:"#fff",border:`2px solid ${p.colour}`,borderRadius:"8px",padding:".6rem 1rem",minWidth:"160px"}}>
+                        <div style={{fontWeight:600,fontSize:".85rem",color:"#1c2b3a"}}>{t.companyName||t.contactName}</div>
+                        <div style={{fontWeight:700,color:p.colour,fontSize:".88rem",marginTop:".2rem"}}>{p.emoji} {p.rating}</div>
+                        <div style={{fontSize:".75rem",color:"#a0b4c5",marginTop:".2rem"}}>
+                          {p.early>0&&<span style={{color:"#8a6a1a",marginRight:".5rem"}}>⭐{p.early} early</span>}
+                          {p.ontime>0&&<span style={{color:"#2d6a2d",marginRight:".5rem"}}>✓{p.ontime} on time</span>}
+                          {p.late>0&&<span style={{color:"#b03030",marginRight:".5rem"}}>⚠{p.late} late</span>}
+                          {p.unpaid>0&&<span style={{color:"#a0b4c5"}}>○{p.unpaid} unpaid</span>}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+
+              {sorted.length===0?(
+                <div className="card" style={{textAlign:"center",color:"#6b7e8f",padding:"3rem"}}>
+                  No invoices issued yet. Generate an invoice and click <strong>Issue Invoice</strong> to record it here.
+                </div>
+              ):(
+                <table style={{width:"100%",borderCollapse:"collapse",background:"#fff",borderRadius:"8px",overflow:"hidden",boxShadow:"0 1px 8px rgba(28,43,58,.08)",border:"1px solid #e8e4dc"}}>
+                  <thead>
+                    <tr style={{background:"#1c2b3a"}}>
+                      {["#","FY","FY Demand","Tenant","Property","Period","Issued","Due","Amount","Expenditure","Status","Score",""].map(h=>(
+                        <th key={h} style={{padding:".7rem 1rem",textAlign:"left",fontSize:".75rem",textTransform:"uppercase",letterSpacing:".07em",color:"#a0b4c5",fontWeight:600,whiteSpace:"nowrap"}}>{h}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {sorted.map((inv,idx)=>{
+                      const cls=classifyPayment(inv);
+                      const clsLabel={early:"⭐ Early",ontime:"✓ On Time",late:"⚠ Late",unpaid:"○ Unpaid"}[cls];
+                      const clsColour={early:"#8a6a1a",ontime:"#2d6a2d",late:"#b03030",unpaid:"#a0b4c5"}[cls];
+                      return(
+                      <tr key={inv.id} style={{borderBottom:"1px solid #f0ece4",background:idx%2===0?"#fff":"#fdfcf9"}}>
+                        <td style={{padding:".7rem 1rem",fontSize:".88rem",color:"#6b7e8f",fontWeight:600}}>{inv.invNo}</td>
+                        <td style={{padding:".7rem 1rem",fontSize:".82rem",fontWeight:700,color:"#8a6a1a",whiteSpace:"nowrap"}}>{inv.financialYear||"—"}</td>
+                        <td style={{padding:".7rem 1rem",fontSize:".88rem",color:"#1c2b3a",fontWeight:600,whiteSpace:"nowrap"}}>{inv.fyInvNo||"—"}</td>
+                        <td style={{padding:".7rem 1rem",fontSize:".9rem",color:"#1c2b3a",fontWeight:600}}>{inv.tenantName}</td>
+                        <td style={{padding:".7rem 1rem",fontSize:".85rem",color:"#6b7e8f"}}>{inv.property}</td>
+                        <td style={{padding:".7rem 1rem",fontSize:".82rem",color:"#6b7e8f",whiteSpace:"nowrap"}}>{inv.periodStart||"—"}<br/>{inv.periodEnd||""}</td>
+                        <td style={{padding:".7rem 1rem",fontSize:".85rem",color:"#6b7e8f",whiteSpace:"nowrap"}}>{inv.dateIssued}</td>
+                        <td style={{padding:".7rem 1rem",fontSize:".85rem",whiteSpace:"nowrap",color:inv.paymentDue?"#1c2b3a":"#c5bfb0",fontWeight:inv.paymentDue?600:400}}>{inv.paymentDue||"—"}</td>
+                        <td style={{padding:".7rem 1rem",fontFamily:"'Cormorant Garamond',serif",fontSize:"1rem",fontWeight:700,color:"#1c2b3a",whiteSpace:"nowrap"}}>£{fmt(inv.amountDue)}</td>
+                        <td style={{padding:".7rem 1rem",fontFamily:"'Cormorant Garamond',serif",fontSize:"1rem",fontWeight:700,color:"#b03030",whiteSpace:"nowrap"}}>{Number(inv.expenditure)>0?`−£${fmt(inv.expenditure)}`:"—"}</td>
+                        <td style={{padding:".7rem 1rem"}}>
+                          {inv.paid
+                            ? <span className="badge badge-paid">✓ Paid {inv.paidDate||""}</span>
+                            : <span className="badge badge-overdue">Unpaid</span>
+                          }
+                        </td>
+                        <td style={{padding:".7rem 1rem",whiteSpace:"nowrap",fontWeight:600,fontSize:".82rem",color:inv.excludeFromScore?"#c5bfb0":clsColour}}>
+                          {inv.excludeFromScore
+                            ? <span style={{color:"#c5bfb0",fontStyle:"italic",fontWeight:400}}>— excluded</span>
+                            : clsLabel
+                          }
+                        </td>
+                        <td style={{padding:".7rem 1rem",whiteSpace:"nowrap"}}>
+                          <div style={{display:"flex",gap:".4rem",alignItems:"center",flexWrap:"wrap"}}>
+                            {!inv.paid&&(
+                              <button className="btn bg bs" onClick={()=>markPaid(inv.id)}>Mark Paid</button>
+                            )}
+                            {inv.paid&&(
+                              <button className="btn bo bs" style={{fontSize:".75rem"}} onClick={()=>{
+                                const updated=issuedInvoices.map(i=>i.id===inv.id?{...i,paid:false,paidDate:null}:i);
+                                setIssuedInvoices(updated);
+                              }}>Undo</button>
+                            )}
+                            <button
+                              className="btn bs"
+                              title={inv.excludeFromScore?"Include this invoice in score":"Exclude this invoice from score"}
+                              style={{fontSize:".75rem",background:inv.excludeFromScore?"#f0ece4":"#fff8e6",border:"1px solid #c9a84c",color:"#8a6a1a"}}
+                              onClick={()=>{
+                                const updated=issuedInvoices.map(i=>i.id===inv.id?{...i,excludeFromScore:!i.excludeFromScore}:i);
+                                setIssuedInvoices(updated);
+                                showToast(inv.excludeFromScore?"Invoice included in score.":"Invoice excluded from score.");
+                              }}
+                            >{inv.excludeFromScore?"↩ Include":"⊘ Exclude"}</button>
+                            <button className="btn bd bs" style={{fontSize:".75rem"}} onClick={()=>deleteInvoice(inv.id)}>🗑</button>
+                          </div>
+                        </td>
+                      </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              )}
+            </>)}
+
+            {/* ── PROPERTY STATEMENTS TAB ── */}
+            {recordsTab==="statements"&&(<>
+              {Object.values(byProperty).length===0?(
+                <div className="card" style={{textAlign:"center",color:"#6b7e8f",padding:"3rem"}}>
+                  No property statements yet. Issue invoices with expenditure to see them here.
+                </div>
+              ):Object.values(byProperty).map(prop=>{
+                const propRecords=[...prop.records].sort((a,b)=>b.invNo-a.invNo);
+                const propExpend=propRecords.reduce((s,i)=>s+Number(i.expenditure||0),0);
+                const propIncome=propRecords.filter(i=>i.paid).reduce((s,i)=>s+Number(i.amountDue||0),0);
+                const propNet=propIncome-propExpend;
+                return(
+                  <div key={prop.property} className="card" style={{marginBottom:"1.5rem",padding:0,overflow:"hidden"}}>
+                    {/* Property header */}
+                    <div style={{background:"#1c2b3a",padding:"1rem 1.5rem",display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+                      <div>
+                        <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:"1.1rem",fontWeight:700,color:"#fff"}}>{prop.property}</div>
+                        <div style={{fontSize:".8rem",color:"#a0b4c5",marginTop:".15rem"}}>{prop.tenantName}</div>
+                      </div>
+                      <div style={{display:"flex",gap:"1.5rem",textAlign:"right"}}>
+                        <div><div style={{fontSize:".7rem",textTransform:"uppercase",letterSpacing:".07em",color:"#a0b4c5"}}>Income</div><div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:"1.1rem",fontWeight:700,color:"#c9a84c"}}>£{fmt(propIncome)}</div></div>
+                        <div><div style={{fontSize:".7rem",textTransform:"uppercase",letterSpacing:".07em",color:"#a0b4c5"}}>Expenditure</div><div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:"1.1rem",fontWeight:700,color:"#e07070"}}>£{fmt(propExpend)}</div></div>
+                        <div><div style={{fontSize:".7rem",textTransform:"uppercase",letterSpacing:".07em",color:"#a0b4c5"}}>Net</div><div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:"1.1rem",fontWeight:700,color:propNet>=0?"#7acc7a":"#e07070"}}>£{fmt(propNet)}</div></div>
+                      </div>
+                    </div>
+                    {/* Per-period breakdown */}
+                    <table style={{width:"100%",borderCollapse:"collapse"}}>
+                      <thead>
+                        <tr style={{background:"#f8f7f4",borderBottom:"1px solid #e8e4dc"}}>
+                          <th style={{padding:".55rem 1.2rem",fontSize:".73rem",textTransform:"uppercase",letterSpacing:".07em",color:"#6b7e8f",textAlign:"left"}}>Period</th>
+                          <th style={{padding:".55rem 1.2rem",fontSize:".73rem",textTransform:"uppercase",letterSpacing:".07em",color:"#6b7e8f",textAlign:"left"}}>Inv #</th>
+                          <th style={{padding:".55rem 1.2rem",fontSize:".73rem",textTransform:"uppercase",letterSpacing:".07em",color:"#6b7e8f",textAlign:"left"}}>Rent</th>
+                          <th style={{padding:".55rem 1.2rem",fontSize:".73rem",textTransform:"uppercase",letterSpacing:".07em",color:"#6b7e8f",textAlign:"left"}}>Expenditure Items</th>
+                          <th style={{padding:".55rem 1.2rem",fontSize:".73rem",textTransform:"uppercase",letterSpacing:".07em",color:"#6b7e8f",textAlign:"right"}}>Total Spent</th>
+                          <th style={{padding:".55rem 1.2rem",fontSize:".73rem",textTransform:"uppercase",letterSpacing:".07em",color:"#6b7e8f",textAlign:"right"}}>Net</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {propRecords.map((inv,idx)=>(
+                          <tr key={inv.id} style={{borderBottom:"1px solid #f0ece4",background:idx%2===0?"#fff":"#fdfcf9"}}>
+                            <td style={{padding:".65rem 1.2rem",fontSize:".85rem",color:"#6b7e8f"}}>{inv.periodStart||"—"} – {inv.periodEnd||""}</td>
+                            <td style={{padding:".65rem 1.2rem",fontSize:".85rem",color:"#6b7e8f"}}>{inv.invNo}</td>
+                            <td style={{padding:".65rem 1.2rem",fontFamily:"'Cormorant Garamond',serif",fontSize:".95rem",fontWeight:700,color:"#1c2b3a"}}>£{fmt(inv.amountDue)}</td>
+                            <td style={{padding:".65rem 1.2rem",fontSize:".82rem",color:"#6b7e8f"}}>
+                              {(inv.expendLines&&inv.expendLines.length>0)
+                                ?inv.expendLines.map((l,i)=><div key={i}>{l.description||"—"}: £{fmt(l.amount)}</div>)
+                                :<span style={{color:"#c5bfb0"}}>None</span>
+                              }
+                            </td>
+                            <td style={{padding:".65rem 1.2rem",fontFamily:"'Cormorant Garamond',serif",fontSize:".95rem",fontWeight:700,color:"#b03030",textAlign:"right"}}>{Number(inv.expenditure)>0?`£${fmt(inv.expenditure)}`:"—"}</td>
+                            <td style={{padding:".65rem 1.2rem",fontFamily:"'Cormorant Garamond',serif",fontSize:".95rem",fontWeight:700,textAlign:"right",color:(Number(inv.amountDue)-Number(inv.expenditure))>=0?"#2d6a2d":"#b03030"}}>£{fmt(Number(inv.amountDue)-Number(inv.expenditure))}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                );
+              })}
+            </>)}
+          </div>
+        );
+      })()}
+
+      {/* ── SETTINGS ── */}
+      {screen==="settings"&&(
+        <div className="pg">
+          <h1>Settings</h1>
+          <p className="sub">Your details appear on every invoice and are saved automatically.</p>
+          <div className="card">
+            <h2>Landlord / Company Details</h2>
+            <div className="row2">
+              <div className="fg"><label>Full Name</label><input value={landlord.name} onChange={e=>setLL({...landlord,name:e.target.value})}/></div>
+              <div className="fg"><label>Company Name</label><input value={landlord.company} onChange={e=>setLL({...landlord,company:e.target.value})}/></div>
+            </div>
+            <div className="fg"><label>Address</label><input value={landlord.address} onChange={e=>setLL({...landlord,address:e.target.value})}/></div>
+            <div className="row2">
+              <div className="fg"><label>Email</label><input value={landlord.email} onChange={e=>setLL({...landlord,email:e.target.value})}/></div>
+              <div className="fg"><label>Phone / Mobile</label><input value={landlord.phone} onChange={e=>setLL({...landlord,phone:e.target.value})}/></div>
+            </div>
+            <hr className="sec"/>
+            <h2>Bank Details</h2>
+            <div className="row3">
+              <div className="fg"><label>Account Name</label><input value={landlord.accountName} onChange={e=>setLL({...landlord,accountName:e.target.value})}/></div>
+              <div className="fg"><label>Sort Code</label><input value={landlord.sortCode} onChange={e=>setLL({...landlord,sortCode:e.target.value})}/></div>
+              <div className="fg"><label>Account Number</label><input value={landlord.accountNumber} onChange={e=>setLL({...landlord,accountNumber:e.target.value})}/></div>
+            </div>
+            <button className="btn bp" onClick={()=>showToast("✓ Settings saved!")}>Save Settings</button>
+          </div>
+        </div>
+      )}
+
+      {/* ── INVOICE BUILDER ── */}
+      {screen==="invoice"&&invTenant&&(
+        <div className="pg">
+          {/* Top controls */}
+          <div className="ctrl-bar no-print">
+            <button className="btn bo" onClick={()=>setScreen("dashboard")}>← Back</button>
+
+            {/* Financial Year selector */}
+            <div style={{display:"flex",alignItems:"center",gap:".4rem",background:"#fff",border:"1.5px solid #c9a84c",borderRadius:"5px",padding:".28rem .7rem"}}>
+              <span style={{fontSize:".78rem",textTransform:"uppercase",letterSpacing:".06em",color:"#8a6a1a",fontWeight:700,whiteSpace:"nowrap"}}>FY</span>
+              <select value={financialYear} onChange={e=>setFinancialYear(e.target.value)} style={{border:"none",background:"transparent",fontSize:".9rem",fontWeight:600,color:"#1c2b3a",cursor:"pointer",padding:"0"}}>
+                {(()=>{
+                  const cur=new Date().getFullYear();
+                  return [cur-2,cur-1,cur,cur+1].map(y=>{
+                    const fy=`${y}/${String(y+1).slice(2)}`;
+                    return <option key={fy} value={fy}>{fy}</option>;
+                  });
+                })()}
+              </select>
+            </div>
+
+            {/* Invoice number stepper per tenant */}
+            <div style={{display:"flex",alignItems:"center",gap:".4rem",background:"#fff",border:"1.5px solid #ddd8ce",borderRadius:"5px",padding:".28rem .6rem"}}>
+              <span style={{fontSize:".78rem",textTransform:"uppercase",letterSpacing:".06em",color:"#4a5a68",fontWeight:600,whiteSpace:"nowrap"}}>Demand #</span>
+              <button onClick={()=>setInvNo(invTenant.id,(invNo-1))} style={{background:"none",border:"none",cursor:"pointer",color:"#1c2b3a",fontSize:"1rem",fontWeight:700,padding:"0 .3rem",lineHeight:1}}>−</button>
+              <input value={invNo} onChange={e=>setInvNo(invTenant.id,e.target.value)} style={{width:"48px",padding:".25rem .4rem",textAlign:"center",fontSize:".95rem",border:"1px solid #ddd8ce",borderRadius:"4px"}}/>
+              <button onClick={()=>setInvNo(invTenant.id,(invNo+1))} style={{background:"none",border:"none",cursor:"pointer",color:"#1c2b3a",fontSize:"1rem",fontWeight:700,padding:"0 .3rem",lineHeight:1}}>+</button>
+            </div>
+
+            {/* View toggle */}
+            <div style={{display:"flex",background:"#f0ece4",borderRadius:"6px",padding:".2rem"}}>
+              <button className={`btn bs ${invView==="tenant"?"bp":""}`} style={{borderRadius:"4px",border:"none"}} onClick={()=>setInvView("tenant")}>
+                📄 Rent Demand
+              </button>
+              <button className={`btn bs ${invView==="landlord"?"bp":""}`} style={{borderRadius:"4px",border:"none",marginLeft:".2rem"}} onClick={()=>setInvView("landlord")}>
+                📊 Property Statement
+              </button>
+            </div>
+
+            <div style={{flex:1}}/>
+            <div style={{display:"flex",alignItems:"center",gap:".4rem",background:"#fff",border:"1.5px solid #ddd8ce",borderRadius:"5px",padding:".28rem .7rem"}}>
+              <span style={{fontSize:".78rem",textTransform:"uppercase",letterSpacing:".06em",color:"#4a5a68",fontWeight:600,whiteSpace:"nowrap"}}>Date of Issue</span>
+              <input value={issueDate} onChange={e=>setIssueDate(e.target.value)} placeholder="DD/MM/YYYY" style={{width:"110px",padding:".25rem .4rem",fontSize:".9rem",border:"1px solid #ddd8ce",borderRadius:"4px"}}/>
+            </div>
+            <div style={{display:"flex",alignItems:"center",gap:".4rem",background:"#fff",border:"1.5px solid #ddd8ce",borderRadius:"5px",padding:".28rem .7rem"}}>
+              <span style={{fontSize:".78rem",textTransform:"uppercase",letterSpacing:".06em",color:"#4a5a68",fontWeight:600,whiteSpace:"nowrap"}}>Payment Due</span>
+              <input value={paymentDue} onChange={e=>setPaymentDue(e.target.value)} placeholder="DD/MM/YYYY" title={`Auto-set from tenant due day (${ordinal(invTenant?.dueDay||1)} of month). Edit if needed.`} style={{width:"110px",padding:".25rem .4rem",fontSize:".9rem",border:"1px solid #ddd8ce",borderRadius:"4px",background:"#f8f7f4"}}/>
+            </div>
+            {invView==="tenant"&&(
+              <div className="stamp-toggle">
+                <span style={{fontSize:".78rem",textTransform:"uppercase",letterSpacing:".06em",color:"#4a5a68",fontWeight:600,whiteSpace:"nowrap"}}>🟢 Paid Date</span>
+                <input value={stampDate} onChange={e=>setStampDate(e.target.value)} placeholder="DD/MM/YYYY" style={{width:"110px",padding:".3rem .5rem",fontSize:".85rem"}}/>
+                <input type="checkbox" id="stamp" checked={stampOn} onChange={e=>handleStampToggle(e.target.checked)}/>
+                <label htmlFor="stamp">Rent Received Stamp</label>
+              </div>
+            )}
+            <input value={invMemo} onChange={e=>setInvMemo(e.target.value)} placeholder="📝 Invoice note / memo (optional)..." style={{flex:"1 1 180px",minWidth:"150px",padding:".38rem .7rem",fontSize:".88rem",border:"1.5px solid #ddd8ce",borderRadius:"5px",fontStyle:invMemo?"normal":"italic"}}/>
+            <button className="btn bg" onClick={issueInvoice}>✓ Issue Invoice</button>
+            <button className="btn bp" onClick={()=>window.print()}>🖨 Print / Save PDF</button>
+          </div>
+
+          <div className="builder-grid">
+            {/* LEFT PANEL */}
+            <div className="no-print">
+              {/* Photo uploader */}
+              <div className="section-box">
+                <div className="section-header" style={{marginBottom:".6rem"}}>
+                  <h3 style={{marginBottom:0}}>Property Photo</h3>
+                  <span style={{fontSize:".75rem",color:"#6b7e8f"}}>appears on both</span>
+                </div>
+                <PhotoUploader photo={invTenant.photo} onPhoto={p=>updateTenantPhoto(invTenant.id,p)} label="Click to upload property photo"/>
+              </div>
+
+              {/* Rental period — editable directly on invoice */}
+              <div className="section-box">
+                <div className="section-header" style={{marginBottom:".6rem"}}>
+                  <h3 style={{marginBottom:0}}>Rental Period</h3>
+                </div>
+                <div className="fg" style={{marginBottom:".6rem"}}>
+                  <label>From</label>
+                  <input
+                    value={invTenant.periodStart||""}
+                    onChange={e=>{
+                      const updated={...invTenant,periodStart:e.target.value};
+                      setInvTenant(updated);
+                      setTenants(tenants.map(t=>t.id===invTenant.id?updated:t));
+                    }}
+                    placeholder="e.g. 1st March 2026"
+                  />
+                </div>
+                <div className="fg" style={{marginBottom:0}}>
+                  <label>To</label>
+                  <input
+                    value={invTenant.periodEnd||""}
+                    onChange={e=>{
+                      const updated={...invTenant,periodEnd:e.target.value};
+                      setInvTenant(updated);
+                      setTenants(tenants.map(t=>t.id===invTenant.id?updated:t));
+                    }}
+                    placeholder="e.g. 1st April 2026"
+                  />
+                </div>
+              </div>
+
+              {invView==="tenant"?(
+                <>
+                  {/* TENANT VIEW inputs — additional charges only */}
+                  <div className="section-box">
+                    <div className="section-header">
+                      <h3 style={{marginBottom:0}}>{invTenant.frequency==="quarterly"?"Quarterly Rent":"Monthly Rent"}</h3>
+                      <strong style={{color:"#1c2b3a",fontFamily:"'Cormorant Garamond',serif",fontSize:"1rem"}}>£{fmt(baseRent)}</strong>
+                    </div>
+                    <div style={{fontSize:".76rem",textTransform:"uppercase",letterSpacing:".07em",color:"#6b7e8f",fontWeight:600,marginBottom:".4rem"}}>Additional Charges</div>
+                    <LineItems items={extraCharges} setItems={setExtraCharges} placeholder="e.g. Service charge"/>
+                  </div>
+                  <div className="net-bar">
+                    <span style={{color:"#a0b4c5",fontSize:".9rem",fontWeight:600}}>Total Due from Tenant</span>
+                    <span style={{fontFamily:"'Cormorant Garamond',serif",fontSize:"1.4rem",fontWeight:700,color:"#c9a84c"}}>£{fmt(totalDue)}</span>
+                  </div>
+                </>
+              ):(
+                <>
+                  {/* LANDLORD VIEW inputs — income + expenditure */}
+                  <div className="section-box">
+                    <div className="section-header">
+                      <h3 style={{marginBottom:0}}>Rent Received</h3>
+                      <span className="stag inc">£{fmt(totalDue)}</span>
+                    </div>
+                    <div className="fixed-row">
+                      <span>{invTenant.frequency==="quarterly"?"Quarterly Rent":"Monthly Rent"}</span>
+                      <strong>£{fmt(baseRent)}</strong>
+                    </div>
+                    {extraCharges.length>0&&extraCharges.filter(r=>r.description||r.amount).map(r=>(
+                      <div key={r.id} className="fixed-row" style={{background:"#f8f7f4"}}>
+                        <span style={{fontSize:".85rem"}}>{r.description||"Additional charge"}</span>
+                        <span style={{fontWeight:600,fontSize:".85rem"}}>£{fmt(r.amount)}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="section-box">
+                    <div className="section-header">
+                      <h3 style={{marginBottom:0}}>Expenditure</h3>
+                      <span className="stag exp">£{fmt(totalExpend)}</span>
+                    </div>
+                    <LineItems items={expendLines} setItems={setExpendLines} placeholder="e.g. Repair works"/>
+                  </div>
+                  <div className="net-bar">
+                    <span style={{color:"#a0b4c5",fontSize:".9rem",fontWeight:600}}>Net to Landlord</span>
+                    <span style={{fontFamily:"'Cormorant Garamond',serif",fontSize:"1.4rem",fontWeight:700,color:"#c9a84c"}}>£{fmt(netToLandlord)}</span>
+                  </div>
+                </>
+              )}
+            </div>
+
+            {/* ── INVOICE PREVIEW ── */}
+            <div className="inv-page">
+              <div className="inv-top">
+                <div className="inv-top-left">
+                  <div className="inv-co">{landlord.company}</div>
+                  <div className="inv-co-sub">
+                    email: <a href={"mailto:"+landlord.email}>{landlord.email}</a>
+                    &nbsp;·&nbsp; Mobile: {landlord.phone}
+                  </div>
+                </div>
+                <div className="inv-top-right">
+                  <div className="inv-badge">{invView==="tenant"?"Rent Demand":"Property Statement"}</div>
+                  {invTenant.photo
+                    ? <img src={invTenant.photo} alt="Property" className="inv-prop-photo"/>
+                    : <div className="inv-prop-photo-placeholder">Upload property photo →</div>
+                  }
+                </div>
+              </div>
+
+              <div className="inv-body">
+                {/* Meta grid */}
+                <div className="inv-grid">
+                  <div>
+                    <div className="inv-sect-label">{invView==="tenant"?"Demand Details":"Statement Details"}</div>
+                    <div className="inv-detail">
+                      <strong>Financial Year:</strong> {financialYear}<br/>
+                      <strong>{invView==="tenant"?"Demand":"Statement"} No:</strong> {(invTenant.fyCounters&&invTenant.fyCounters[financialYear])||1} <span style={{color:"#a0b4c5",fontSize:".82em"}}>(FY) · #{invNo} overall</span><br/>
+                      <strong>Date of Issue:</strong> {issueDate}<br/>
+                      {paymentDue&&<><strong>Payment Due:</strong> {paymentDue}<br/></>}
+                      <strong>Rental Period:</strong> {periodStart} – {periodEnd}<br/>
+                      {invMemo&&<div className="memo-line" style={{marginTop:".5rem"}}>📝 {invMemo}</div>}
+                      <strong>Payment:</strong> {invTenant.frequency==="quarterly"?"Quarterly":"Monthly"}
+                    </div>
+                  </div>
+                  <div>
+                    <div className="inv-sect-label">{invView==="tenant"?"Tenant":"Property"}</div>
+                    <div className="inv-detail">
+                      {invTenant.companyName&&<><strong>{invTenant.companyName}</strong><br/></>}
+                      {invTenant.contactName&&<>Contact: {invTenant.contactName}<br/></>}
+                      {invTenant.address&&<>{invTenant.address}<br/></>}
+                      {invTenant.email&&<>{invTenant.email}</>}
+                    </div>
+                  </div>
+                </div>
+
+                {/* ── TENANT VIEW TABLE ── */}
+                {invView==="tenant"&&(
+                  <>
+                    <table className="inv-table">
+                      <thead><tr><th>Description</th><th>Amount</th></tr></thead>
+                      <tbody>
+                        <tr>
+                          <td>{invTenant.frequency==="quarterly"?"Quarterly":"Monthly"} Rent — {invTenant.property}</td>
+                          <td>£{fmt(baseRent)}</td>
+                        </tr>
+                        {extraCharges.filter(r=>r.description||r.amount).map(r=>(
+                          <tr key={r.id}><td>{r.description||"—"}</td><td>£{fmt(r.amount)}</td></tr>
+                        ))}
+                        <tr className="tot-row">
+                          <td><strong>Total Due</strong></td>
+                          <td><strong>£{fmt(totalDue)}</strong></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div className="inv-bank">
+                      <div className="inv-bank-title">Please make payment to:</div>
+                      <div className="inv-bank-row">
+                        <strong>Account Name:</strong> {landlord.accountName}<br/>
+                        <strong>Sort Code:</strong> {landlord.sortCode}
+                        &nbsp;&nbsp;<strong>Account Number:</strong> {landlord.accountNumber}
+                        {invTenant.ref&&<>&nbsp;&nbsp;<strong>Reference:</strong> {invTenant.ref}</>}
+                      </div>
+                    </div>
+                  </>
+                )}
+
+                {/* ── LANDLORD VIEW TABLE ── */}
+                {invView==="landlord"&&(
+                  <>
+                    <table className="inv-table">
+                      <thead><tr><th>Description</th><th>Amount</th></tr></thead>
+                      <tbody>
+                        <tr className="sh"><td colSpan="2">Rent Received</td></tr>
+                        <tr>
+                          <td>{invTenant.frequency==="quarterly"?"Quarterly":"Monthly"} Rent — {invTenant.property}</td>
+                          <td>£{fmt(baseRent)}</td>
+                        </tr>
+                        {extraCharges.filter(r=>r.description||r.amount).map(r=>(
+                          <tr key={r.id}><td>{r.description||"—"}</td><td>£{fmt(r.amount)}</td></tr>
+                        ))}
+                        <tr className="sub-row"><td>Total Received</td><td>£{fmt(totalDue)}</td></tr>
+
+                        <tr className="sh"><td colSpan="2">Expenditure</td></tr>
+                        {expendLines.filter(r=>r.description||r.amount).map(r=>(
+                          <tr key={r.id} className="exp-row"><td>{r.description||"—"}</td><td>−£{fmt(r.amount)}</td></tr>
+                        ))}
+                        <tr className="sub-row exp-row"><td>Total Expenditure</td><td>−£{fmt(totalExpend)}</td></tr>
+
+                        <tr className="tot-row"><td><strong>Net to Landlord</strong></td><td><strong>£{fmt(netToLandlord)}</strong></td></tr>
+                      </tbody>
+                    </table>
+                    <div className="inv-bank">
+                      <div className="inv-bank-title">Bank Details on Record:</div>
+                      <div className="inv-bank-row">
+                        <strong>Account Name:</strong> {landlord.accountName}<br/>
+                        <strong>Sort Code:</strong> {landlord.sortCode}
+                        &nbsp;&nbsp;<strong>Account Number:</strong> {landlord.accountNumber}
+                        {invTenant.ref&&<>&nbsp;&nbsp;<strong>REF:</strong> {invTenant.ref}</>}
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
+
+              <div className="inv-footer">
+                <span>{landlord.company} · {landlord.address}</span>
+                <span>{invView==="tenant"?"Demand":"Statement"} #{invNo}</span>
+              </div>
+
+              {invView==="tenant"&&stampOn&&(
+                <div className="stamp">
+                  <div className="stamp-inner">
+                    <div className="stamp-title">Rent<br/>Received</div>
+                    <div className="stamp-date">{stampDate}</div>
+                    <div className="stamp-sub">Janjua &amp; Assoc.</div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── TENANT MODAL ── */}
+      {editTenant&&(
+        <div className="mo" onClick={()=>setEditTenant(null)}>
+          <div className="md" onClick={e=>e.stopPropagation()}>
+            <div className="mh">
+              <h2 style={{marginBottom:0}}>{editTenant.id?"Edit Tenant":"Add Tenant"}</h2>
+              <button className="mx" onClick={()=>setEditTenant(null)}>✕</button>
+            </div>
+            <div className="row2">
+              <div className="fg"><label>Company Name</label><input value={editTenant.companyName} onChange={e=>setEditTenant({...editTenant,companyName:e.target.value})} placeholder="e.g. Din Solicitors"/></div>
+              <div className="fg"><label>Contact Name</label><input value={editTenant.contactName} onChange={e=>setEditTenant({...editTenant,contactName:e.target.value})} placeholder="e.g. Shabnam Riaz"/></div>
+            </div>
+            <div className="fg"><label>Billing Address</label><input value={editTenant.address} onChange={e=>setEditTenant({...editTenant,address:e.target.value})} placeholder="Full billing address"/></div>
+            <div className="fg"><label>Email</label><input type="email" value={editTenant.email} onChange={e=>setEditTenant({...editTenant,email:e.target.value})} placeholder="tenant@company.co.uk"/></div>
+            <div className="fg"><label>Property Address *</label><input value={editTenant.property} onChange={e=>setEditTenant({...editTenant,property:e.target.value})} placeholder="e.g. 128 Lady Pit Lane, Beeston"/></div>
+            <div className="row3">
+              <div className="fg">
+                <label>Payment Frequency</label>
+                <select value={editTenant.frequency||"monthly"} onChange={e=>setEditTenant({...editTenant,frequency:e.target.value})}>
+                  <option value="monthly">Monthly</option>
+                  <option value="quarterly">Quarterly (Quarter Days)</option>
+                </select>
+              </div>
+              <div className="fg">
+                <label>{editTenant.frequency==="quarterly"?"Quarterly Rent (£) *":"Monthly Rent (£) *"}</label>
+                <input type="number" value={editTenant.rent} onChange={e=>setEditTenant({...editTenant,rent:e.target.value})} placeholder={editTenant.frequency==="quarterly"?"8400":"2800"}/>
+              </div>
+              <div className="fg">
+                <label>Payment Due — Day of Month</label>
+                <select value={editTenant.dueDay||1} onChange={e=>setEditTenant({...editTenant,dueDay:Number(e.target.value)})}>
+                  {Array.from({length:28},(_,i)=>i+1).map(d=>(
+                    <option key={d} value={d}>{ordinal(d)} of each month</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+            <div className="row3">
+              <div className="fg"><label>Rental Period — From</label><input value={editTenant.periodStart||""} onChange={e=>setEditTenant({...editTenant,periodStart:e.target.value})} placeholder="e.g. 1st January 2026"/></div>
+              <div className="fg"><label>Rental Period — To</label><input value={editTenant.periodEnd||""} onChange={e=>setEditTenant({...editTenant,periodEnd:e.target.value})} placeholder="e.g. 1st February 2026"/></div>
+              <div className="fg"><label>Payment Ref</label><input value={editTenant.ref} onChange={e=>setEditTenant({...editTenant,ref:e.target.value})} placeholder="e.g. DINSOLICITORS"/></div>
+            </div>
+            {/* Photo in modal */}
+            <div className="fg">
+              <label>Property Photo</label>
+              <PhotoUploader
+                photo={editTenant.photo||null}
+                onPhoto={p=>setEditTenant({...editTenant,photo:p})}
+                label="Upload a photo of the property"
+              />
+            </div>
+            <div className="fg">
+              <label>Notes</label>
+              <textarea value={editTenant.notes||""} onChange={e=>setEditTenant({...editTenant,notes:e.target.value})} placeholder="Key holder details, access codes, lease notes, special agreements..." rows={3} style={{resize:"vertical"}}/>
+            </div>
+            <div style={{display:"flex",gap:".8rem",justifyContent:"flex-end",marginTop:".5rem"}}>
+              <button className="btn bo" onClick={()=>setEditTenant(null)}>Cancel</button>
+              <button className="btn bp" onClick={()=>{
+                if(!editTenant.property||!editTenant.rent){showToast("Property and rent are required.");return;}
+                let updated;
+                if(editTenant.id===null){updated=[...tenants,{...editTenant,id:nextId}];setNextId(n=>n+1);}
+                else updated=tenants.map(t=>t.id===editTenant.id?editTenant:t);
+                setTenants(updated);setEditTenant(null);showToast("Tenant saved!");
+              }}>Save Tenant</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {toast&&<div className="toast">{toast}</div>}
+
+      {/* ══════════════════════════════════════════════════════
+          ── IMMIGRATION SECTION ──
+      ══════════════════════════════════════════════════════ */}
+      {screen==="immigration"&&(()=>{
+        const IMM_CASE_TYPES=["Visa Application","Appeal / Tribunal","Naturalisation / Citizenship","Spouse / Family Visa","Leave to Remain","EEA / Settled Status","Asylum","Judicial Review","Other"];
+        const IMM_STATUSES=["Active","Awaiting Decision","Approved","Refused","Appealing","Closed"];
+        const statusEmoji={Active:"🟢",Awaiting:"🟡","Awaiting Decision":"🟡",Approved:"✅",Refused:"🔴",Appealing:"🔵",Closed:"⚫"};
+        const clientName=c=>`${c.firstName||""} ${c.lastName||""}`.trim()||"Unnamed";
+        const clientMap={};immClients.forEach(c=>{clientMap[c.id]=c;});
+        const caseRef=c=>c.caseRef||`JA-IMM-${String(c.id).padStart(4,"0")}`;
+
+        // Open fee note builder for a case
+        const openFeeNote=c=>{
+          setFnCase(c);setFnIssueDate(todayStr());setFnPaymentDue("");
+          setFnDisburse([]);setFnMemo("");setFnFY(getFY(new Date()));
+          setImmScreen("feenote");
+        };
+
+        // Issue fee note
+        const issueFeeNote=()=>{
+          if(!fnCase) return;
+          const existingForCase=immFeeNotes.filter(f=>f.caseId===fnCase.id&&f.financialYear===fnFY);
+          const fyFnNo=existingForCase.length+1;
+          const disbTotal=fnDisburse.reduce((s,r)=>s+Number(r.amount||0),0);
+          const record={
+            id:uid(), caseId:fnCase.id, clientId:fnCase.clientId,
+            clientName:clientName(clientMap[fnCase.clientId]||{}),
+            caseRef:caseRef(fnCase), caseType:fnCase.caseType,
+            hoRef:fnCase.hoRef||"",
+            financialYear:fnFY, fyFnNo,
+            dateIssued:fnIssueDate, paymentDue:fnPaymentDue,
+            fixedFee:Number(fnCase.fixedFee||0),
+            disbursements:fnDisburse.filter(r=>r.description||r.amount),
+            disbTotal, total:Number(fnCase.fixedFee||0)+disbTotal,
+            memo:fnMemo, paid:false, paidDate:null,
+          };
+          setImmFeeNotes([...immFeeNotes,record]);
+          // Update case fnNo counter
+          const updCases=immCases.map(c=>c.id===fnCase.id?{...c,fnNo:(c.fnNo||1)+1}:c);
+          setImmCases(updCases);
+          showToast("✓ Fee note issued!");
+          setImmScreen("records");
+        };
+
+        return(
+          <div className="pg">
+            <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-end",marginBottom:"1rem",flexWrap:"wrap",gap:"1rem"}}>
+              <div>
+                <h1>⚖ Immigration</h1>
+                <p className="sub" style={{marginBottom:0}}>Case management and fee notes — Janjua and Associates Limited</p>
+              </div>
+            </div>
+
+            {/* Sub-nav */}
+            <div className="imm-nav no-print">
+              {[["dashboard","📊 Overview"],["clients","👤 Clients"],["cases","📁 Cases"],["records","🗂 Fee Notes"],["settings","⚙ Firm Settings"]].map(([s,l])=>(
+                <button key={s} className={`imm-nav-btn ${immScreen===s?"active":""}`} onClick={()=>setImmScreen(s)}>{l}</button>
+              ))}
+            </div>
+
+            {/* ── OVERVIEW ── */}
+            {immScreen==="dashboard"&&(()=>{
+              const active=immCases.filter(c=>c.status==="Active").length;
+              const awaiting=immCases.filter(c=>c.status==="Awaiting Decision").length;
+              const approved=immCases.filter(c=>c.status==="Approved").length;
+              const refused=immCases.filter(c=>c.status==="Refused").length;
+              const totalFees=immFeeNotes.filter(f=>f.paid).reduce((s,f)=>s+Number(f.total||0),0);
+              const outstanding=immFeeNotes.filter(f=>!f.paid).reduce((s,f)=>s+Number(f.total||0),0);
+              // Upcoming deadlines
+              const today=new Date();
+              const in14=new Date(today);in14.setDate(today.getDate()+14);
+              const upcoming=immCases.filter(c=>{
+                if(!c.deadline&&!c.hearingDate) return false;
+                const d=parseDate(c.deadline)||parseDate(c.hearingDate);
+                return d&&d>=today&&d<=in14&&c.status!=="Closed"&&c.status!=="Approved";
+              }).sort((a,b)=>(parseDate(a.deadline||a.hearingDate))-(parseDate(b.deadline||b.hearingDate)));
+              return(<>
+                <div className="sg" style={{gridTemplateColumns:"repeat(3,1fr)",marginBottom:"1.5rem"}}>
+                  <div className="st"><div className="sl">Total Cases</div><div className="sv">{immCases.length}</div></div>
+                  <div className="st"><div className="sl">Fees Received</div><div className="sv" style={{color:"#2d6a2d"}}>£{fmt(totalFees)}</div></div>
+                  <div className="st"><div className="sl">Outstanding</div><div className="sv" style={{color:"#b03030"}}>£{fmt(outstanding)}</div></div>
+                </div>
+                {/* Status breakdown */}
+                <div style={{display:"flex",gap:".6rem",flexWrap:"wrap",marginBottom:"1.5rem"}}>
+                  {[["Active","#2d6a2d","#e8f3e8"],["Awaiting Decision","#8a6a1a","#fff8e6"],["Approved","#1a6a1a","#e0f0e0"],["Refused","#b03030","#ffeaea"],["Appealing","#6030a0","#f0e8ff"],["Closed","#6b7e8f","#f0ece4"]].map(([st,col,bg])=>{
+                    const n=immCases.filter(c=>c.status===st).length;
+                    return(<div key={st} style={{background:bg,border:`1.5px solid ${col}`,borderRadius:"8px",padding:".6rem 1.1rem",display:"flex",flexDirection:"column",alignItems:"center",minWidth:"90px"}}>
+                      <div style={{fontWeight:700,fontSize:"1.4rem",fontFamily:"'Cormorant Garamond',serif",color:col}}>{n}</div>
+                      <div style={{fontSize:".72rem",color:col,fontWeight:600,textAlign:"center"}}>{st}</div>
+                    </div>);
+                  })}
+                </div>
+                {/* Upcoming deadlines */}
+                {upcoming.length>0&&(
+                  <div style={{background:"#fff8e6",border:"1.5px solid #c9a84c",borderRadius:"8px",padding:"1rem 1.3rem",marginBottom:"1.5rem"}}>
+                    <div style={{fontWeight:700,color:"#8a6a1a",marginBottom:".6rem"}}>⏰ Deadlines in the next 14 days</div>
+                    {upcoming.map(c=>{
+                      const cl=clientMap[c.clientId];
+                      const d=parseDate(c.deadline)||parseDate(c.hearingDate);
+                      const daysLeft=Math.ceil((d-today)/(1000*60*60*24));
+                      return(
+                        <div key={c.id} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:".4rem 0",borderBottom:"1px solid #f0e0a0",fontSize:".88rem"}}>
+                          <div>
+                            <span style={{fontWeight:600,color:"#1c2b3a"}}>{cl?clientName(cl):"Unknown"}</span>
+                            <span style={{color:"#6b7e8f",marginLeft:".5rem"}}>· {c.caseType} · {caseRef(c)}</span>
+                          </div>
+                          <div style={{fontWeight:700,color:daysLeft<=3?"#b03030":"#8a6a1a",whiteSpace:"nowrap"}}>
+                            {c.deadline?"📋":"⚖"} {c.deadline||c.hearingDate} <span style={{fontSize:".8rem"}}>({daysLeft}d)</span>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+                {immCases.length===0&&(
+                  <div className="card" style={{textAlign:"center",color:"#6b7e8f",padding:"3rem"}}>
+                    No cases yet. Add a client then create a case to get started.
+                  </div>
+                )}
+              </>);
+            })()}
+
+            {/* ── CLIENTS ── */}
+            {immScreen==="clients"&&(
+              <div>
+                <div style={{display:"flex",justifyContent:"flex-end",marginBottom:"1rem"}}>
+                  <button className="btn bp" onClick={()=>setEditImmClient({id:null,firstName:"",lastName:"",dob:"",nationality:"",passport:"",email:"",phone:"",address:"",notes:""})}>+ Add Client</button>
+                </div>
+                {immClients.length===0?(
+                  <div className="card" style={{textAlign:"center",color:"#6b7e8f",padding:"3rem"}}>No clients yet.</div>
+                ):immClients.map(c=>{
+                  const cases=immCases.filter(x=>x.clientId===c.id);
+                  return(
+                    <div key={c.id} className="card tc">
+                      <div className="av" style={{background:"#2d3d8a"}}>{(c.firstName||"?").charAt(0).toUpperCase()}</div>
+                      <div className="ti">
+                        <div className="tn">{clientName(c)}</div>
+                        <div className="tm">📧 {c.email||"No email"} · 📞 {c.phone||"No phone"}</div>
+                        <div className="tm">🌍 {c.nationality||"—"} · 🛂 {c.passport||"—"}</div>
+                        <div className="tm">📁 {cases.length} case{cases.length!==1?"s":""} · {cases.filter(x=>x.status==="Active").length} active</div>
+                        {c.notes&&<div className="tm" style={{fontStyle:"italic",color:"#8a7a5a"}}>📝 {c.notes}</div>}
+                      </div>
+                      <div style={{display:"flex",gap:".5rem",flexDirection:"column",alignItems:"flex-end"}}>
+                        <div style={{display:"flex",gap:".4rem"}}>
+                          <button className="btn bo bs" onClick={()=>setEditImmClient({...c})}>Edit</button>
+                          <button className="btn bs" style={{background:"#e8f0ff",border:"1.5px solid #2d3d8a",color:"#2d3d8a"}} onClick={()=>{setImmFilterClient(String(c.id));setImmScreen("cases");}}>Cases</button>
+                          <button className="btn bd bs" onClick={()=>{if(!window.confirm("Remove this client and all their cases?")) return;setImmClients(immClients.filter(x=>x.id!==c.id));setImmCases(immCases.filter(x=>x.clientId!==c.id));showToast("Client removed.");}}>🗑</button>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+
+            {/* ── CASES ── */}
+            {immScreen==="cases"&&(
+              <div>
+                <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:"1rem",flexWrap:"wrap",gap:".7rem"}}>
+                  <div style={{display:"flex",gap:".6rem",flexWrap:"wrap",alignItems:"center"}}>
+                    <select value={immFilterClient} onChange={e=>setImmFilterClient(e.target.value)} style={{width:"auto",padding:".38rem .7rem"}}>
+                      <option value="all">All Clients</option>
+                      {immClients.map(c=><option key={c.id} value={c.id}>{clientName(c)}</option>)}
+                    </select>
+                    <select value={immFilterStatus} onChange={e=>setImmFilterStatus(e.target.value)} style={{width:"auto",padding:".38rem .7rem"}}>
+                      <option value="all">All Statuses</option>
+                      {IMM_STATUSES.map(s=><option key={s} value={s}>{s}</option>)}
+                    </select>
+                  </div>
+                  <button className="btn bp" onClick={()=>setEditImmCase({id:null,clientId:immFilterClient!=="all"?Number(immFilterClient):"",caseType:"Visa Application",status:"Active",hoRef:"",deadline:"",hearingDate:"",fixedFee:"",notes:""})}>+ Add Case</button>
+                </div>
+                {(()=>{
+                  const filtered=immCases
+                    .filter(c=>immFilterClient==="all"||String(c.clientId)===String(immFilterClient))
+                    .filter(c=>immFilterStatus==="all"||c.status===immFilterStatus)
+                    .sort((a,b)=>b.id-a.id);
+                  if(filtered.length===0) return <div className="card" style={{textAlign:"center",color:"#6b7e8f",padding:"3rem"}}>No cases found.</div>;
+                  return filtered.map(c=>{
+                    const cl=clientMap[c.clientId];
+                    const fns=immFeeNotes.filter(f=>f.caseId===c.id);
+                    const paid=fns.filter(f=>f.paid).reduce((s,f)=>s+Number(f.total||0),0);
+                    const unpaid=fns.filter(f=>!f.paid).reduce((s,f)=>s+Number(f.total||0),0);
+                    return(
+                      <div key={c.id} className="card" style={{borderLeft:`3px solid ${{Active:"#2d6a2d","Awaiting Decision":"#c9a84c",Approved:"#1a6a1a",Refused:"#b03030",Appealing:"#6030a0",Closed:"#c5bfb0"}[c.status]||"#c5bfb0"}`}}>
+                        <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",flexWrap:"wrap",gap:".8rem"}}>
+                          <div style={{flex:1}}>
+                            <div style={{display:"flex",alignItems:"center",gap:".5rem",flexWrap:"wrap",marginBottom:".3rem"}}>
+                              <span style={{fontWeight:700,fontSize:"1rem",color:"#1c2b3a"}}>{cl?clientName(cl):"Unknown Client"}</span>
+                              <span className={`status-badge s-${c.status.replace(" ","")}`}>{statusEmoji[c.status]||""} {c.status}</span>
+                              <span style={{fontSize:".78rem",color:"#a0b4c5",fontFamily:"monospace"}}>{caseRef(c)}</span>
+                            </div>
+                            <div style={{fontSize:".85rem",color:"#4a5a68",fontWeight:600}}>{c.caseType}</div>
+                            <div style={{fontSize:".82rem",color:"#6b7e8f",marginTop:".25rem"}}>
+                              {c.hoRef&&<span>🏛 HO Ref: {c.hoRef} · </span>}
+                              {c.deadline&&<span>📋 Deadline: {c.deadline} · </span>}
+                              {c.hearingDate&&<span>⚖ Hearing: {c.hearingDate}</span>}
+                            </div>
+                            {c.notes&&<div style={{fontSize:".82rem",color:"#8a7a5a",fontStyle:"italic",marginTop:".2rem"}}>📝 {c.notes}</div>}
+                            <div style={{fontSize:".8rem",color:"#6b7e8f",marginTop:".3rem"}}>
+                              {fns.length>0&&<>📄 {fns.length} fee note{fns.length!==1?"s":""} · <span style={{color:"#2d6a2d"}}>£{fmt(paid)} received</span>{unpaid>0&&<span style={{color:"#b03030"}}> · £{fmt(unpaid)} outstanding</span>}</>}
+                            </div>
+                          </div>
+                          <div style={{display:"flex",flexDirection:"column",alignItems:"flex-end",gap:".4rem"}}>
+                            <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:"1.1rem",fontWeight:700,color:"#1c2b3a"}}>£{fmt(c.fixedFee||0)}</div>
+                            <div style={{display:"flex",gap:".4rem",flexWrap:"wrap"}}>
+                              <button className="btn bg bs" onClick={()=>openFeeNote(c)}>Issue Fee Note</button>
+                              <button className="btn bo bs" onClick={()=>setEditImmCase({...c})}>Edit</button>
+                              <button className="btn bd bs" onClick={()=>{if(!window.confirm("Delete this case?")) return;setImmCases(immCases.filter(x=>x.id!==c.id));showToast("Case deleted.");}}>🗑</button>
+                            </div>
+                            <select value={c.status} onChange={e=>{const upd=immCases.map(x=>x.id===c.id?{...x,status:e.target.value}:x);setImmCases(upd);showToast("Status updated.");}} style={{fontSize:".8rem",padding:".25rem .5rem",width:"auto"}}>
+                              {IMM_STATUSES.map(s=><option key={s} value={s}>{s}</option>)}
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  });
+                })()}
+              </div>
+            )}
+
+            {/* ── FEE NOTE BUILDER ── */}
+            {immScreen==="feenote"&&fnCase&&(()=>{
+              const cl=clientMap[fnCase.clientId]||{};
+              const disbTotal=fnDisburse.reduce((s,r)=>s+Number(r.amount||0),0);
+              const total=Number(fnCase.fixedFee||0)+disbTotal;
+              const existingForCase=immFeeNotes.filter(f=>f.caseId===fnCase.id&&f.financialYear===fnFY);
+              const fyFnNo=existingForCase.length+1;
+              return(
+                <div>
+                  {/* Ctrl bar */}
+                  <div className="ctrl-bar no-print">
+                    <button className="btn bo" onClick={()=>setImmScreen("cases")}>← Back</button>
+                    <div style={{display:"flex",alignItems:"center",gap:".4rem",background:"#fff",border:"1.5px solid #c9a84c",borderRadius:"5px",padding:".28rem .7rem"}}>
+                      <span style={{fontSize:".78rem",textTransform:"uppercase",letterSpacing:".06em",color:"#8a6a1a",fontWeight:700}}>FY</span>
+                      <select value={fnFY} onChange={e=>setFnFY(e.target.value)} style={{border:"none",background:"transparent",fontSize:".9rem",fontWeight:600,color:"#1c2b3a",cursor:"pointer",padding:0}}>
+                        {[new Date().getFullYear()-1,new Date().getFullYear(),new Date().getFullYear()+1].map(y=>{const fy=`${y}/${String(y+1).slice(2)}`;return <option key={fy} value={fy}>{fy}</option>;})}
+                      </select>
+                    </div>
+                    <div style={{display:"flex",alignItems:"center",gap:".4rem",background:"#fff",border:"1.5px solid #ddd8ce",borderRadius:"5px",padding:".28rem .7rem"}}>
+                      <span style={{fontSize:".78rem",textTransform:"uppercase",letterSpacing:".06em",color:"#4a5a68",fontWeight:600}}>Date of Issue</span>
+                      <input value={fnIssueDate} onChange={e=>setFnIssueDate(e.target.value)} placeholder="DD/MM/YYYY" style={{width:"110px",padding:".25rem .4rem",fontSize:".9rem",border:"1px solid #ddd8ce",borderRadius:"4px"}}/>
+                    </div>
+                    <div style={{display:"flex",alignItems:"center",gap:".4rem",background:"#fff",border:"1.5px solid #ddd8ce",borderRadius:"5px",padding:".28rem .7rem"}}>
+                      <span style={{fontSize:".78rem",textTransform:"uppercase",letterSpacing:".06em",color:"#4a5a68",fontWeight:600}}>Payment Due</span>
+                      <input value={fnPaymentDue} onChange={e=>setFnPaymentDue(e.target.value)} placeholder="DD/MM/YYYY" style={{width:"110px",padding:".25rem .4rem",fontSize:".9rem",border:"1px solid #ddd8ce",borderRadius:"4px"}}/>
+                    </div>
+                    <input value={fnMemo} onChange={e=>setFnMemo(e.target.value)} placeholder="📝 Note / memo (optional)..." style={{flex:"1 1 160px",padding:".38rem .7rem",fontSize:".88rem",border:"1.5px solid #ddd8ce",borderRadius:"5px",fontStyle:fnMemo?"normal":"italic"}}/>
+                    <button className="btn bg" onClick={issueFeeNote}>✓ Issue Fee Note</button>
+                    <button className="btn bp" onClick={()=>window.print()}>🖨 Print / Save PDF</button>
+                  </div>
+
+                  <div className="builder-grid">
+                    {/* Left panel */}
+                    <div className="no-print">
+                      <div className="section-box">
+                        <h3>Disbursements</h3>
+                        <LineItems items={fnDisburse} setItems={setFnDisburse} placeholder="e.g. Home Office fee"/>
+                        <div style={{display:"flex",justifyContent:"space-between",padding:".5rem .2rem",fontWeight:600,borderTop:"1px solid #e8e4dc",marginTop:".4rem"}}>
+                          <span>Total disbursements</span><span>£{fmt(disbTotal)}</span>
+                        </div>
+                        <div style={{display:"flex",justifyContent:"space-between",padding:".3rem .2rem",fontWeight:700,fontFamily:"'Cormorant Garamond',serif",fontSize:"1.05rem"}}>
+                          <span>Total due</span><span>£{fmt(total)}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Fee note preview */}
+                    <div className="fn-page">
+                      <div className="fn-top">
+                        <div className="fn-top-left">
+                          <div className="fn-co">{immFirm.name}</div>
+                          <div className="fn-co-sub">
+                            {immFirm.address}<br/>
+                            <a href={`mailto:${immFirm.email}`}>{immFirm.email}</a>
+                            {immFirm.phone&&<> · {immFirm.phone}</>}<br/>
+                            OISC Ref: {immFirm.oisc}
+                          </div>
+                        </div>
+                        <div className="fn-top-right">
+                          <div className="fn-badge">Fee Note</div>
+                        </div>
+                      </div>
+                      <div className="fn-body">
+                        <div className="fn-grid">
+                          <div>
+                            <div className="fn-sect-label">Fee Note Details</div>
+                            <div className="fn-detail">
+                              <strong>Financial Year:</strong> {fnFY}<br/>
+                              <strong>Fee Note No:</strong> {fyFnNo} <span style={{color:"#a0b4c5",fontSize:".82em"}}>(FY)</span><br/>
+                              <strong>Date of Issue:</strong> {fnIssueDate}<br/>
+                              {fnPaymentDue&&<><strong>Payment Due:</strong> {fnPaymentDue}<br/></>}
+                              <strong>Case Ref:</strong> {caseRef(fnCase)}<br/>
+                              <strong>Case Type:</strong> {fnCase.caseType}<br/>
+                              {fnCase.hoRef&&<><strong>HO Reference:</strong> {fnCase.hoRef}<br/></>}
+                              {fnCase.deadline&&<><strong>Application Deadline:</strong> {fnCase.deadline}<br/></>}
+                              {fnCase.hearingDate&&<><strong>Hearing Date:</strong> {fnCase.hearingDate}<br/></>}
+                              {fnMemo&&<div className="memo-line" style={{marginTop:".5rem"}}>📝 {fnMemo}</div>}
+                            </div>
+                          </div>
+                          <div>
+                            <div className="fn-sect-label">Client Details</div>
+                            <div className="fn-detail">
+                              <strong>{clientName(cl)}</strong><br/>
+                              {cl.address&&<>{cl.address}<br/></>}
+                              {cl.email&&<>{cl.email}<br/></>}
+                              {cl.phone&&<>{cl.phone}<br/></>}
+                              {cl.nationality&&<><strong>Nationality:</strong> {cl.nationality}<br/></>}
+                            </div>
+                          </div>
+                        </div>
+                        <table className="fn-table">
+                          <thead><tr><th>Description</th><th>Amount</th></tr></thead>
+                          <tbody>
+                            <tr><td>Professional fees — {fnCase.caseType}</td><td>£{fmt(fnCase.fixedFee||0)}</td></tr>
+                            {fnDisburse.filter(r=>r.description||r.amount).map(r=>(
+                              <tr key={r.id}><td>{r.description||"—"}</td><td>£{fmt(r.amount)}</td></tr>
+                            ))}
+                            <tr className="fn-tot"><td><strong>Total Due</strong></td><td><strong>£{fmt(total)}</strong></td></tr>
+                          </tbody>
+                        </table>
+                        <div className="fn-bank">
+                          <div className="fn-bank-title">Payment Details</div>
+                          <div className="fn-bank-row">
+                            <strong>Account Name:</strong> {immFirm.accountName}<br/>
+                            <strong>Sort Code:</strong> {immFirm.sortCode}&nbsp;&nbsp;<strong>Account Number:</strong> {immFirm.accountNumber}<br/>
+                            <strong>Reference:</strong> {clientName(cl).split(" ").pop().toUpperCase()||caseRef(fnCase)}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="fn-footer">
+                        <span>{immFirm.name} · OISC Reg: {immFirm.oisc}</span>
+                        <span>Fee Note #{fyFnNo} · FY {fnFY}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })()}
+
+            {/* ── FEE NOTE RECORDS ── */}
+            {immScreen==="records"&&(()=>{
+              const filtered=immFeeNotes
+                .filter(f=>immFilterClient==="all"||String(f.clientId)===String(immFilterClient))
+                .sort((a,b)=>b.fyFnNo-a.fyFnNo);
+              const totalPaid=filtered.filter(f=>f.paid).reduce((s,f)=>s+Number(f.total||0),0);
+              const totalUnpaid=filtered.filter(f=>!f.paid).reduce((s,f)=>s+Number(f.total||0),0);
+              return(<>
+                <div style={{display:"flex",gap:".6rem",marginBottom:"1.2rem",alignItems:"center",flexWrap:"wrap"}}>
+                  <select value={immFilterClient} onChange={e=>setImmFilterClient(e.target.value)} style={{width:"auto",padding:".38rem .7rem"}}>
+                    <option value="all">All Clients</option>
+                    {immClients.map(c=><option key={c.id} value={c.id}>{clientName(c)}</option>)}
+                  </select>
+                </div>
+                <div className="sg" style={{gridTemplateColumns:"1fr 1fr",marginBottom:"1.5rem"}}>
+                  <div className="st"><div className="sl">Received</div><div className="sv" style={{color:"#2d6a2d"}}>£{fmt(totalPaid)}</div></div>
+                  <div className="st"><div className="sl">Outstanding</div><div className="sv" style={{color:"#b03030"}}>£{fmt(totalUnpaid)}</div></div>
+                </div>
+                {filtered.length===0?(
+                  <div className="card" style={{textAlign:"center",color:"#6b7e8f",padding:"3rem"}}>No fee notes issued yet. Open a case and click Issue Fee Note.</div>
+                ):(
+                  <table style={{width:"100%",borderCollapse:"collapse",background:"#fff",borderRadius:"8px",overflow:"hidden",boxShadow:"0 1px 8px rgba(28,43,58,.08)",border:"1px solid #e8e4dc"}}>
+                    <thead>
+                      <tr style={{background:"#1c2b3a"}}>
+                        {["FY","#","Client","Case Ref","Type","Issued","Due","Total","Status",""].map(h=>(
+                          <th key={h} style={{padding:".7rem 1rem",textAlign:"left",fontSize:".75rem",textTransform:"uppercase",letterSpacing:".07em",color:"#a0b4c5",fontWeight:600,whiteSpace:"nowrap"}}>{h}</th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {filtered.map((f,idx)=>(
+                        <tr key={f.id} style={{borderBottom:"1px solid #f0ece4",background:idx%2===0?"#fff":"#fdfcf9"}}>
+                          <td style={{padding:".7rem 1rem",fontSize:".82rem",color:"#8a6a1a",fontWeight:700}}>{f.financialYear||"—"}</td>
+                          <td style={{padding:".7rem 1rem",fontSize:".88rem",color:"#6b7e8f",fontWeight:600}}>{f.fyFnNo}</td>
+                          <td style={{padding:".7rem 1rem",fontSize:".9rem",color:"#1c2b3a",fontWeight:600}}>{f.clientName}</td>
+                          <td style={{padding:".7rem 1rem",fontSize:".82rem",color:"#6b7e8f",fontFamily:"monospace"}}>{f.caseRef}</td>
+                          <td style={{padding:".7rem 1rem",fontSize:".82rem",color:"#6b7e8f"}}>{f.caseType}</td>
+                          <td style={{padding:".7rem 1rem",fontSize:".82rem",color:"#6b7e8f",whiteSpace:"nowrap"}}>{f.dateIssued}</td>
+                          <td style={{padding:".7rem 1rem",fontSize:".82rem",color:f.paymentDue?"#1c2b3a":"#c5bfb0",fontWeight:f.paymentDue?600:400,whiteSpace:"nowrap"}}>{f.paymentDue||"—"}</td>
+                          <td style={{padding:".7rem 1rem",fontFamily:"'Cormorant Garamond',serif",fontSize:"1rem",fontWeight:700,color:"#1c2b3a",whiteSpace:"nowrap"}}>£{fmt(f.total)}</td>
+                          <td style={{padding:".7rem 1rem"}}>
+                            {f.paid
+                              ?<span className="badge badge-paid">✓ Paid {f.paidDate||""}</span>
+                              :<span className="badge badge-overdue">Unpaid</span>
+                            }
+                          </td>
+                          <td style={{padding:".7rem 1rem",whiteSpace:"nowrap"}}>
+                            <div style={{display:"flex",gap:".4rem"}}>
+                              {!f.paid&&<button className="btn bg bs" onClick={()=>{const upd=immFeeNotes.map(x=>x.id===f.id?{...x,paid:true,paidDate:todayStr()}:x);setImmFeeNotes(upd);showToast("✓ Marked as paid!");}}>Mark Paid</button>}
+                              {f.paid&&<button className="btn bo bs" style={{fontSize:".75rem"}} onClick={()=>{const upd=immFeeNotes.map(x=>x.id===f.id?{...x,paid:false,paidDate:null}:x);setImmFeeNotes(upd);}}>Undo</button>}
+                              <button className="btn bd bs" style={{fontSize:".75rem"}} onClick={()=>{if(!window.confirm("Delete this fee note?")) return;setImmFeeNotes(immFeeNotes.filter(x=>x.id!==f.id));showToast("Deleted.");}}>🗑</button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
+              </>);
+            })()}
+
+            {/* ── FIRM SETTINGS ── */}
+            {immScreen==="settings"&&(
+              <div className="card" style={{maxWidth:"580px"}}>
+                <h2 style={{marginBottom:"1.2rem"}}>Immigration Firm Details</h2>
+                <div className="fg"><label>Firm Name</label><input value={immFirm.name||""} onChange={e=>setImmFirm({...immFirm,name:e.target.value})}/></div>
+                <div className="fg"><label>Address</label><input value={immFirm.address||""} onChange={e=>setImmFirm({...immFirm,address:e.target.value})}/></div>
+                <div className="row2">
+                  <div className="fg"><label>Email</label><input value={immFirm.email||""} onChange={e=>setImmFirm({...immFirm,email:e.target.value})}/></div>
+                  <div className="fg"><label>Phone</label><input value={immFirm.phone||""} onChange={e=>setImmFirm({...immFirm,phone:e.target.value})}/></div>
+                </div>
+                <div className="fg"><label>OISC Registration Number</label><input value={immFirm.oisc||""} onChange={e=>setImmFirm({...immFirm,oisc:e.target.value})}/></div>
+                <hr className="sec"/>
+                <h3>Bank Details</h3>
+                <div className="row3">
+                  <div className="fg"><label>Account Name</label><input value={immFirm.accountName||""} onChange={e=>setImmFirm({...immFirm,accountName:e.target.value})}/></div>
+                  <div className="fg"><label>Sort Code</label><input value={immFirm.sortCode||""} onChange={e=>setImmFirm({...immFirm,sortCode:e.target.value})}/></div>
+                  <div className="fg"><label>Account Number</label><input value={immFirm.accountNumber||""} onChange={e=>setImmFirm({...immFirm,accountNumber:e.target.value})}/></div>
+                </div>
+                <button className="btn bp" onClick={()=>showToast("✓ Firm settings saved!")}>Save Settings</button>
+              </div>
+            )}
+
+            {/* ── CLIENT MODAL ── */}
+            {editImmClient&&(
+              <div className="mo" onClick={()=>setEditImmClient(null)}>
+                <div className="md" onClick={e=>e.stopPropagation()}>
+                  <div className="mh">
+                    <h2 style={{marginBottom:0}}>{editImmClient.id?"Edit Client":"Add Client"}</h2>
+                    <button className="mx" onClick={()=>setEditImmClient(null)}>✕</button>
+                  </div>
+                  <div className="row2">
+                    <div className="fg"><label>First Name *</label><input value={editImmClient.firstName||""} onChange={e=>setEditImmClient({...editImmClient,firstName:e.target.value})} placeholder="e.g. Amara"/></div>
+                    <div className="fg"><label>Last Name *</label><input value={editImmClient.lastName||""} onChange={e=>setEditImmClient({...editImmClient,lastName:e.target.value})} placeholder="e.g. Khan"/></div>
+                  </div>
+                  <div className="row3">
+                    <div className="fg"><label>Date of Birth</label><input value={editImmClient.dob||""} onChange={e=>setEditImmClient({...editImmClient,dob:e.target.value})} placeholder="DD/MM/YYYY"/></div>
+                    <div className="fg"><label>Nationality</label><input value={editImmClient.nationality||""} onChange={e=>setEditImmClient({...editImmClient,nationality:e.target.value})} placeholder="e.g. Pakistani"/></div>
+                    <div className="fg"><label>Passport Number</label><input value={editImmClient.passport||""} onChange={e=>setEditImmClient({...editImmClient,passport:e.target.value})} placeholder="e.g. AA1234567"/></div>
+                  </div>
+                  <div className="row2">
+                    <div className="fg"><label>Email</label><input type="email" value={editImmClient.email||""} onChange={e=>setEditImmClient({...editImmClient,email:e.target.value})} placeholder="client@email.com"/></div>
+                    <div className="fg"><label>Phone</label><input value={editImmClient.phone||""} onChange={e=>setEditImmClient({...editImmClient,phone:e.target.value})} placeholder="07xxx xxxxxx"/></div>
+                  </div>
+                  <div className="fg"><label>Address</label><input value={editImmClient.address||""} onChange={e=>setEditImmClient({...editImmClient,address:e.target.value})} placeholder="Full address"/></div>
+                  <div className="fg"><label>Notes</label><textarea value={editImmClient.notes||""} onChange={e=>setEditImmClient({...editImmClient,notes:e.target.value})} rows={2} style={{resize:"vertical"}} placeholder="Any relevant notes..."/></div>
+                  <div style={{display:"flex",gap:".8rem",justifyContent:"flex-end",marginTop:".5rem"}}>
+                    <button className="btn bo" onClick={()=>setEditImmClient(null)}>Cancel</button>
+                    <button className="btn bp" onClick={()=>{
+                      if(!editImmClient.firstName&&!editImmClient.lastName){showToast("Client name is required.");return;}
+                      let updated;
+                      if(editImmClient.id===null){updated=[...immClients,{...editImmClient,id:immNextClientId}];setImmNextClientId(immNextClientId+1);}
+                      else updated=immClients.map(c=>c.id===editImmClient.id?editImmClient:c);
+                      setImmClients(updated);setEditImmClient(null);showToast("Client saved!");
+                    }}>Save Client</button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* ── CASE MODAL ── */}
+            {editImmCase&&(
+              <div className="mo" onClick={()=>setEditImmCase(null)}>
+                <div className="md" onClick={e=>e.stopPropagation()}>
+                  <div className="mh">
+                    <h2 style={{marginBottom:0}}>{editImmCase.id?"Edit Case":"Add Case"}</h2>
+                    <button className="mx" onClick={()=>setEditImmCase(null)}>✕</button>
+                  </div>
+                  <div className="fg">
+                    <label>Client *</label>
+                    <select value={editImmCase.clientId||""} onChange={e=>setEditImmCase({...editImmCase,clientId:Number(e.target.value)})}>
+                      <option value="">Select client...</option>
+                      {immClients.map(c=><option key={c.id} value={c.id}>{clientName(c)}</option>)}
+                    </select>
+                  </div>
+                  <div className="row2">
+                    <div className="fg">
+                      <label>Case Type *</label>
+                      <select value={editImmCase.caseType||"Visa Application"} onChange={e=>setEditImmCase({...editImmCase,caseType:e.target.value})}>
+                        {IMM_CASE_TYPES.map(t=><option key={t} value={t}>{t}</option>)}
+                      </select>
+                    </div>
+                    <div className="fg">
+                      <label>Status</label>
+                      <select value={editImmCase.status||"Active"} onChange={e=>setEditImmCase({...editImmCase,status:e.target.value})}>
+                        {IMM_STATUSES.map(s=><option key={s} value={s}>{s}</option>)}
+                      </select>
+                    </div>
+                  </div>
+                  <div className="row2">
+                    <div className="fg"><label>Home Office Reference</label><input value={editImmCase.hoRef||""} onChange={e=>setEditImmCase({...editImmCase,hoRef:e.target.value})} placeholder="e.g. UAN1234567"/></div>
+                    <div className="fg"><label>Fixed Fee (£) *</label><input type="number" value={editImmCase.fixedFee||""} onChange={e=>setEditImmCase({...editImmCase,fixedFee:e.target.value})} placeholder="e.g. 1500"/></div>
+                  </div>
+                  <div className="row2">
+                    <div className="fg"><label>Application Deadline</label><input value={editImmCase.deadline||""} onChange={e=>setEditImmCase({...editImmCase,deadline:e.target.value})} placeholder="DD/MM/YYYY"/></div>
+                    <div className="fg"><label>Hearing Date</label><input value={editImmCase.hearingDate||""} onChange={e=>setEditImmCase({...editImmCase,hearingDate:e.target.value})} placeholder="DD/MM/YYYY"/></div>
+                  </div>
+                  <div className="fg"><label>Notes</label><textarea value={editImmCase.notes||""} onChange={e=>setEditImmCase({...editImmCase,notes:e.target.value})} rows={2} style={{resize:"vertical"}} placeholder="Case notes, special instructions..."/></div>
+                  <div style={{display:"flex",gap:".8rem",justifyContent:"flex-end",marginTop:".5rem"}}>
+                    <button className="btn bo" onClick={()=>setEditImmCase(null)}>Cancel</button>
+                    <button className="btn bp" onClick={()=>{
+                      if(!editImmCase.clientId||!editImmCase.fixedFee){showToast("Client and fee are required.");return;}
+                      let updated;
+                      if(editImmCase.id===null){
+                        const ref=`JA-IMM-${String(immNextCaseId).padStart(4,"0")}`;
+                        updated=[...immCases,{...editImmCase,id:immNextCaseId,caseRef:ref,fnNo:1}];
+                        setImmNextCaseId(immNextCaseId+1);
+                      } else updated=immCases.map(c=>c.id===editImmCase.id?editImmCase:c);
+                      setImmCases(updated);setEditImmCase(null);showToast("Case saved!");
+                    }}>Save Case</button>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        );
+      })()}
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<Root/>);
+</script>
+</body>
+</html>
