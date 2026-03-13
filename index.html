@@ -1936,10 +1936,10 @@ function App({user}){
                         <div className="fn-top-left">
                           <div className="fn-co">{immFirm.name}</div>
                           <div className="fn-co-sub">
-                            {immFirm.address}<br/>
-                            <a href={`mailto:${immFirm.email}`}>{immFirm.email}</a>
-                            {immFirm.phone&&<> · {immFirm.phone}</>}<br/>
-                            IAA Reg: {immFirm.oisc}
+                            <span style={{color:"#d0dce8"}}>{immFirm.address}</span><br/>
+                            <a href={`mailto:${immFirm.email}`} style={{color:"#c9a84c"}}>{immFirm.email}</a>
+                            {immFirm.phone&&<span style={{color:"#d0dce8"}}> · {immFirm.phone}</span>}<br/>
+                            <span style={{color:"#c9a84c",fontWeight:700,letterSpacing:".04em"}}>IAA Reg: {immFirm.oisc}</span>
                           </div>
                         </div>
                         <div className="fn-top-right">
@@ -1994,7 +1994,7 @@ function App({user}){
                         </div>
                       </div>
                       <div className="fn-footer">
-                        <span>{immFirm.name} · IAA Reg: {immFirm.oisc}</span>
+                        <span>{immFirm.name} · <strong>IAA Reg: {immFirm.oisc}</strong></span>
                         <span>Fee Note #{fyFnNo} · FY {fnFY}</span>
                       </div>
                     </div>
